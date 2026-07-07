@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="css/hero.css">
     <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/toast.css">
-    <link rel="stylesheet" href="css/cart.css"> <!-- YENİ EKLENDİ -->
+    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="css/footer.css"> <!-- YENİ EKLENDİ -->
 </head>
 <body>
     <!-- Altın Cursor -->
@@ -195,41 +196,66 @@
         </div>
     </section>
 
-    <!-- YENİ GELİŞMİŞ FOOTER -->
-    <footer class="advanced-footer" style="background: #050505; padding: 60px 5%; border-top: 1px solid rgba(255,255,255,0.1);">
-        <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
-            <div class="footer-brand">
-                <h2 style="color:var(--gold-accent);">Kavrulmuş.</h2>
-                <p style="color: #999; margin-top: 15px;">Aksaray Merkez'in 3. nesil kahve deneyimi.</p>
+    <!-- YENİ PREMIUM FOOTER -->
+    <footer class="premium-footer">
+        <div class="footer-grid">
+            <div class="footer-col footer-brand">
+                <h2>Kavrulmuş<span>.</span></h2>
+                <p>Aksaray Merkez'in 3. nesil kahve deneyimi. Çekirdekten fincana uzanan bu premium lezzet serüvenine ortak olun.</p>
+                <div class="social-icons">
+                    <a href="#">Ig</a>
+                    <a href="#">Fb</a>
+                    <a href="#">Tw</a>
+                </div>
             </div>
-            <div class="footer-links" style="display: flex; flex-direction: column; gap: 10px;">
-                <h3 style="margin-bottom: 10px;">Keşfet</h3>
-                <a href="hakkimizda.html" style="color: #999;">Hakkımızda</a>
-                <a href="blog.html" style="color: #999;">Blog</a>
-                <a href="iletisim.html" style="color: #999;">İletişim</a>
+
+            <div class="footer-col">
+                <h3>Keşfet</h3>
+                <ul class="footer-links">
+                    <li><a href="hakkimizda.html">Hikayemiz</a></li>
+                    <li><a href="urunler.html">Menü & Sipariş</a></li>
+                    <li><a href="blog.html">Kahve Rehberi</a></li>
+                    <li><a href="iletisim.html">İletişim & Harita</a></li>
+                </ul>
             </div>
-            <div class="footer-info">
-                <h3 style="margin-bottom: 10px;">Çalışma Saatleri</h3>
-                <p style="color: #999;">Pzt - Paz: 09.00 - 23.00</p>
-                <h3 style="margin-top:20px; margin-bottom: 10px;">Adres</h3>
-                <p style="color: #999;">Kafeler Caddesi No:45, Aksaray</p>
+
+            <div class="footer-col">
+                <h3>Kurumsal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="#">İade ve Değişim Şartları</a></li>
+                    <li><a href="#">Mesafeli Satış Sözleşmesi</a></li>
+                    <li><a href="#">Sıkça Sorulan Sorular</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-contact">
+                <h3>İletişim</h3>
+                <p>📍 Kafeler Caddesi No:45, Aksaray</p>
+                <p>📞 +90 (555) 123 45 67</p>
+                <p>✉️ info@kavrulmus.com</p>
+                <p>🕒 Pzt - Paz: 09.00 - 23.00</p>
             </div>
         </div>
-        <div class="footer-bottom" style="text-align: center; padding-top: 40px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); color: #666;">
-            <p>&copy; 2024 Kavrulmuş Kahve - Aksaray Merkez. Tüm hakları saklıdır.</p>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Kavrulmuş Kahve - Tüm hakları saklıdır.</p>
+            <div class="payment-methods">
+                <span>VISA</span>
+                <span>MASTERCARD</span>
+                <span>TROY</span>
+            </div>
         </div>
     </footer>
 
-    <!-- SEPET MODALI (SIDEBAR) EKLENDİ -->
+    <!-- SEPET MODALI (SIDEBAR) -->
     <div class="cart-overlay" id="cart-overlay"></div>
     <aside class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
             <h2>Sepetiniz</h2>
             <button class="close-cart" id="close-cart">✕</button>
         </div>
-        <div class="cart-items" id="cart-items">
-            <!-- Ürünler buraya JS ile dolacak -->
-        </div>
+        <div class="cart-items" id="cart-items"></div>
         <div class="cart-footer">
             <div class="cart-total-box">
                 <span>Ara Toplam:</span>
@@ -245,7 +271,7 @@
     <!-- JS Modülleri -->
     <script src="js/app.js"></script>
     <script src="js/toast.js"></script>
-    <script src="js/cart.js"></script> <!-- YENİ EKLENDİ -->
+    <script src="js/cart.js"></script>
     <script src="js/script.js"></script> 
 </body>
 </html>
