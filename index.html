@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kavrulmuş | Anasayfa</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/hero.css">
 </head>
 <body>
-    <!-- 14. Altın Cursor -->
     <div class="cursor-ring" id="cursor-ring"></div>
 
-    <!-- 19. Yeni Kahve Loader -->
     <div id="loader" class="loader-container">
         <div class="cup-loader">
             <div class="steam steam-1"></div>
@@ -19,210 +20,113 @@
             <div class="steam steam-3"></div>
             <div class="cup"></div>
         </div>
-        <p style="margin-top: 25px; font-weight: bold; color: var(--primary-color);">Taptaze demleniyor...</p>
+        <p style="margin-top: 25px; font-weight: bold; color: var(--gold-accent);">Taptaze demleniyor...</p>
     </div>
 
-    <!-- NAVBAR -->
     <nav class="navbar" id="navbar">
-        <div class="logo">
-            <a href="index.html" style="color:inherit; text-decoration:none; display:flex; align-items:center; gap:10px;">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
-                Kavrulmuş
-            </a>
+        <div class="nav-brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+            Kavrulmuş<span>.</span>
         </div>
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="Kahve, tatlı ara..." autocomplete="off">
-            <div class="search-results" id="search-results"></div>
-        </div>
+        
         <ul class="nav-links">
-            <li><a href="index.html" style="color:var(--primary-color);">Anasayfa</a></li>
+            <li><a href="index.html">Anasayfa</a></li>
             <li><a href="urunler.html">Ürünlerimiz</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="iletisim.html">İletişim</a></li>
-            <li><button id="theme-toggle" class="theme-toggle">☀️</button></li>
         </ul>
+        
         <div class="nav-actions">
-            <div id="auth-menu-area"><button id="open-auth" class="auth-btn">👤 Giriş Yap</button></div>
-            <div class="cart-btn" id="cart-icon">🛒 Sepet (<span id="cart-count">0</span>)</div>
+            <button id="open-auth" class="btn-text">👤 Giriş Yap</button>
+            <button class="btn-premium cart-btn" id="cart-icon">
+                🛒 Sepet (<span id="cart-count">0</span>)
+            </button>
         </div>
     </nav>
 
-    <!-- HERO -->
-    <section class="hero">
-        <video autoplay loop muted playsinline class="hero-video">
-            <source src="https://videos.pexels.com/video-files/2861294/2861294-uhd_2560_1440_24fps.mp4" type="video/mp4">
+    <header class="hero">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/images/hero/hero-poster.webp">
+            <source src="assets/videos/hero.mp4" type="video/mp4">
         </video>
+        
         <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>Aksaray'ın En Taze Kahvesi</h1>
-            <p>Çekirdekten fincana uzanan premium lezzet serüveni. Kavurma atölyemizden kapınıza.</p>
-            <a href="urunler.html" class="cta-btn">Menüyü Keşfet</a>
-        </div>
-    </section>
 
-    <!-- 10. KAHVE QUİZİ -->
-    <section class="quiz-section page-bg">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="stars">⭐⭐⭐⭐⭐</span> 4.9 | 15.000+ Mutlu Misafir
+            </div>
+            <h1 class="hero-title">Crafted for <span>Coffee</span> Lovers</h1>
+            <p class="hero-subtitle">Premium kahve deneyimini her fincanda hissedin. Aksaray'ın 3. nesil kavurma atölyesinden kapınıza.</p>
+            
+            <div class="hero-buttons">
+                <a href="urunler.html" class="btn-premium primary">Menüyü İncele</a>
+                <a href="#quiz" class="btn-premium secondary">Kahveni Bul ↓</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="quiz" class="quiz-section page-bg" style="padding: 100px 50px; text-align:center;">
         <div class="quiz-container">
             <h2>Sana En Uygun Kahveyi Bulalım ☕</h2>
-            <div id="quiz-question-box">
-                <p id="quiz-question">Sert ve yoğun kahve sever misin?</p>
-                <div class="quiz-buttons">
-                    <button class="cta-btn" onclick="nextQuiz('evet')">Evet</button>
-                    <button class="cta-btn" onclick="nextQuiz('hayir')" style="background:transparent; color:var(--primary-color);">Hayır</button>
+            <div id="quiz-question-box" style="margin-top: 30px;">
+                <p id="quiz-question" style="font-size: 1.2rem; margin-bottom: 20px;">Sert ve yoğun kahve sever misin?</p>
+                <div class="quiz-buttons" style="display: flex; justify-content: center; gap: 15px;">
+                    <button class="btn-premium primary" onclick="nextQuiz('evet')">Evet</button>
+                    <button class="btn-premium secondary" onclick="nextQuiz('hayir')">Hayır</button>
                 </div>
             </div>
             <div id="quiz-result" class="hidden">
-                <h3 style="color:var(--primary-color); margin-bottom:15px;">Senin Kahven: <span id="result-coffee">Flat White</span>!</h3>
-                <a href="urunler.html" class="cta-btn">Menüde Gör</a>
-                <button onclick="resetQuiz()" style="background:none; border:none; color:#aaa; cursor:pointer; margin-left:15px; text-decoration:underline;">Tekrar Çöz</button>
+                <h3 style="color:var(--gold-accent); margin-bottom:15px;">Senin Kahven: <span id="result-coffee">Flat White</span>!</h3>
+                <a href="urunler.html" class="btn-premium primary">Menüde Gör</a>
+                <button onclick="resetQuiz()" class="btn-premium secondary">Tekrar Çöz</button>
             </div>
         </div>
     </section>
 
-    <!-- 22. DÜNYA KAHVE HARİTASI -->
     <section class="map-section" style="padding: 80px 50px; text-align:center; background:#111;">
         <h2 class="section-title">Çekirdeklerimizin Yolculuğu 🗺️</h2>
-        <div class="world-map-container">
-            <!-- Temsili Harita Arka Planı -->
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg" alt="Dünya Haritası" class="world-map-img">
+        <div class="world-map-container" style="position: relative; max-width: 1000px; margin: 0 auto;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg" alt="Dünya Haritası" class="world-map-img" style="width: 100%; opacity: 0.5;">
             
-            <div class="map-pin" style="top: 60%; left: 30%;">
-                <span class="pin-dot"></span>
+            <div class="map-pin" style="position: absolute; top: 60%; left: 30%;">
+                <span class="pin-dot">📍</span>
                 <div class="pin-tooltip"><strong>🇧🇷 Brezilya</strong><br>Düşük asidite, çikolata ve fındık notaları.</div>
             </div>
-            <div class="map-pin" style="top: 55%; left: 22%;">
-                <span class="pin-dot"></span>
+            <div class="map-pin" style="position: absolute; top: 55%; left: 22%;">
+                <span class="pin-dot">📍</span>
                 <div class="pin-tooltip"><strong>🇨🇴 Kolombiya</strong><br>Karamel tatlılığı, orta gövde.</div>
             </div>
-            <div class="map-pin" style="top: 52%; left: 55%;">
-                <span class="pin-dot"></span>
+            <div class="map-pin" style="position: absolute; top: 52%; left: 55%;">
+                <span class="pin-dot">📍</span>
                 <div class="pin-tooltip"><strong>🇪🇹 Etiyopya</strong><br>Çiçeksi ve meyvemsi, yüksek asidite.</div>
             </div>
         </div>
     </section>
 
-    <!-- 20. YENİ GELİŞMİŞ FOOTER -->
-    <footer class="advanced-footer">
-        <div class="footer-grid">
+    <footer class="advanced-footer" style="background: #050505; padding: 60px 5%; border-top: 1px solid rgba(255,255,255,0.1);">
+        <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
             <div class="footer-brand">
-                <h2 style="color:var(--primary-color);">Kavrulmuş</h2>
-                <p>Aksaray Merkez'in 3. nesil kahve deneyimi.</p>
-                <div class="social-links">
-                    <a href="#">Instagram</a> | <a href="#">Facebook</a> | <a href="#">WhatsApp</a>
-                </div>
+                <h2 style="color:var(--gold-accent);">Kavrulmuş.</h2>
+                <p style="color: #999; margin-top: 15px;">Aksaray Merkez'in 3. nesil kahve deneyimi.</p>
             </div>
-            <div class="footer-links">
-                <h3>Keşfet</h3>
-                <a href="hakkimizda.html">Hakkımızda</a>
-                <a href="blog.html">Blog</a>
-                <a href="sss.html">SSS</a>
-                <a href="iletisim.html">İletişim</a>
+            <div class="footer-links" style="display: flex; flex-direction: column; gap: 10px;">
+                <h3 style="margin-bottom: 10px;">Keşfet</h3>
+                <a href="hakkimizda.html" style="color: #999;">Hakkımızda</a>
+                <a href="blog.html" style="color: #999;">Blog</a>
+                <a href="iletisim.html" style="color: #999;">İletişim</a>
             </div>
             <div class="footer-info">
-                <h3>Çalışma Saatleri</h3>
-                <p>Pzt - Paz: 09.00 - 23.00</p>
-                <h3 style="margin-top:15px;">Adres</h3>
-                <p>Kafeler Caddesi No:45, Aksaray</p>
-            </div>
-            <div class="footer-newsletter">
-                <h3>Bültene Katıl</h3>
-                <p>İndirimleri ilk sen öğren!</p>
-                <div style="display:flex; gap:10px; margin-top:10px;">
-                    <input type="email" placeholder="E-Posta" style="padding:10px; border-radius:5px; border:none; width:100%;">
-                    <button class="cta-btn" style="padding:10px 20px;">Kayıt</button>
-                </div>
+                <h3 style="margin-bottom: 10px;">Çalışma Saatleri</h3>
+                <p style="color: #999;">Pzt - Paz: 09.00 - 23.00</p>
+                <h3 style="margin-top:20px; margin-bottom: 10px;">Adres</h3>
+                <p style="color: #999;">Kafeler Caddesi No:45, Aksaray</p>
             </div>
         </div>
-        <div class="footer-bottom">
+        <div class="footer-bottom" style="text-align: center; padding-top: 40px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); color: #666;">
             <p>&copy; 2024 Kavrulmuş Kahve - Aksaray Merkez. Tüm hakları saklıdır.</p>
         </div>
     </footer>
 
-    <!-- 23. YAPAY ZEKA ASİSTANI -->
-    <div class="ai-chatbot" id="ai-chatbot">
-        <div class="chat-header" id="chat-toggle">🤖 Kahve Asistanı <span id="chat-icon">▲</span></div>
-        <div class="chat-body" id="chat-body">
-            <div class="chat-message bot">Merhaba! Bugün ne içmek istersin?</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="chat-input-text" placeholder="Örn: Tatlı bir kahve...">
-            <button id="chat-send">Gönder</button>
-        </div>
-    </div>
-
-    <!-- SEPET VE MODALLAR (KULLANICI, CHECKOUT, TAKİP) -->
-    <div class="cart-overlay" id="cart-overlay"></div>
-    <div class="cart-sidebar" id="cart-sidebar">
-        <div class="cart-header"><h2>Sepetiniz</h2><button class="close-cart" id="close-cart">✕</button></div>
-        <div class="cart-items" id="cart-items"></div>
-        <div class="cart-footer">
-            <h3>Toplam: <span id="cart-total">0.00</span> TL</h3>
-            <button class="checkout-btn" id="go-to-checkout">Siparişi Tamamla</button>
-        </div>
-    </div>
-
-    <!-- 8. GERÇEK CHECKOUT MODALI -->
-    <div class="modal-overlay" id="checkout-modal">
-        <div class="auth-box" style="max-width: 500px;">
-            <span class="close-modal" onclick="document.getElementById('checkout-modal').classList.remove('active')">&times;</span>
-            <h2 style="color:var(--primary-color); margin-bottom:20px;">Güvenli Ödeme</h2>
-            <form id="checkout-form" class="auth-form active">
-                <input type="text" placeholder="Ad Soyad" required>
-                <input type="tel" placeholder="Telefon (05XX...)" required>
-                <textarea placeholder="Teslimat Adresi" style="padding:15px; border-radius:8px; border:1px solid #444; background:rgba(0,0,0,0.2); color:white;" required></textarea>
-                <select style="padding:15px; border-radius:8px; background:rgba(0,0,0,0.2); color:gray;">
-                    <option>Kredi/Banka Kartı</option>
-                    <option>Kapıda Ödeme</option>
-                </select>
-                <button type="submit" class="cta-btn" style="width:100%; border:none; background:var(--primary-color); color:#000;">Siparişi Onayla</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- 9. SİPARİŞ TAKİP MODALI -->
-    <div class="modal-overlay" id="tracking-modal">
-        <div class="auth-box" style="max-width: 500px;">
-            <h2 style="color:var(--primary-color); margin-bottom:10px;">Siparişin Alındı!</h2>
-            <p style="margin-bottom:30px;">Takip numaran: #KVR-9823</p>
-            
-            <div class="tracking-stages">
-                <div class="track-stage active" id="stage-1">📝 Sipariş Onaylandı</div>
-                <div class="track-line"></div>
-                <div class="track-stage" id="stage-2">☕ Barista Hazırlıyor</div>
-                <div class="track-line"></div>
-                <div class="track-stage" id="stage-3">🛵 Kuryede</div>
-                <div class="track-line"></div>
-                <div class="track-stage" id="stage-4">🎉 Teslim Edildi</div>
-            </div>
-            
-            <div class="progress-bar"><div class="progress-fill" id="track-progress"></div></div>
-            <button class="cta-btn" style="margin-top:30px;" onclick="document.getElementById('tracking-modal').classList.remove('active')">Kapat</button>
-        </div>
-    </div>
-
-    <!-- KULLANICI GİRİŞ/KAYIT -->
-    <div class="modal-overlay" id="auth-modal">
-        <div class="auth-box">
-            <span class="close-modal" id="close-auth">&times;</span>
-            <div class="auth-tabs">
-                <button class="auth-tab active" id="tab-login">Giriş Yap</button>
-                <button class="auth-tab" id="tab-register">Kayıt Ol</button>
-            </div>
-            <form id="login-form" class="auth-form active">
-                <input type="email" id="login-email" placeholder="E-Posta" required>
-                <input type="password" id="login-pass" placeholder="Şifre" required>
-                <button type="submit" class="cta-btn" style="width:100%; border:none; background:var(--primary-color); color:#000;">Giriş Yap</button>
-            </form>
-            <form id="register-form" class="auth-form">
-                <input type="text" id="reg-name" placeholder="Ad Soyad" required>
-                <input type="email" id="reg-email" placeholder="E-Posta" required>
-                <input type="password" id="reg-pass" placeholder="Şifre" required>
-                <button type="submit" class="cta-btn" style="width:100%; border:none; background:var(--primary-color); color:#000;">Üye Ol</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="toast" class="toast">Mesaj!</div>
-    <script src="script.js"></script>
-</body>
+    <script src="js/app.js"></script>
+    <script src="js/script.js"></script> </body>
 </html>
