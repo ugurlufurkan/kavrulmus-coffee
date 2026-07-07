@@ -1,0 +1,55 @@
+/* css/pages.css */
+
+/* Alt Sayfalar İçin Ortak Tepe Alanı */
+.page-header {
+    padding: 160px 5% 80px; /* Navbar'ın altında kalmaması için üstten boşluk */
+    text-align: center;
+    background: linear-gradient(to bottom, var(--bg-dark), rgba(200, 159, 93, 0.05));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.page-header h1 {
+    font-size: 3.5rem;
+    color: var(--gold-accent);
+    margin-bottom: 15px;
+    font-family: var(--font-heading);
+    letter-spacing: -1px;
+}
+
+.page-header p {
+    color: #999;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Ürün Filtreleme Menüsü */
+.filter-menu {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 50px 5% 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
+    padding: 8px 24px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active, 
+.filter-btn:hover {
+    background: var(--gold-accent);
+    color: var(--bg-dark);
+    border-color: var(--gold-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(200, 159, 93, 0.2);
+}
