@@ -64,7 +64,7 @@
 
         <div class="hero-content">
             <div class="hero-badge animate fade-down">
-                <span class="stars">⭐⭐⭐⭐⭐</span> 4.9 | 15.000+ Mutlu Misafir
+                <span class="stars">⭐⭐⭐⭐⭐</span> 4.9 | <span data-counter="15000">0</span>+ Mutlu Misafir
             </div>
             <h1 class="hero-title animate fade-up delay-1">Crafted for <span>Coffee</span> Lovers</h1>
             <p class="hero-subtitle animate fade-up delay-2">Premium kahve deneyimini her fincanda hissedin. Aksaray'ın 3. nesil kavurma atölyesinden kapınıza.</p>
@@ -78,9 +78,9 @@
 
     <!-- PREMIUM ÜRÜN KARTLARI -->
     <section id="menu" class="products-section">
-        <div class="section-header animate fade-up">
-            <h2>Öne Çıkan Lezzetler</h2>
-            <p>En çok tercih edilen taze kavrulmuş çekirdeklerimiz.</p>
+        <div class="section-header">
+            <h2 class="animate fade-up">Öne Çıkan Lezzetler</h2>
+            <p class="animate fade-up delay-1">En çok tercih edilen taze kavrulmuş çekirdeklerimiz.</p>
         </div>
         
         <div class="products-grid">
@@ -93,7 +93,7 @@
                         <span class="badge weight">250g</span>
                     </div>
                     <button class="wishlist-btn">♡</button>
-                    <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=30&q=20&blur=20" data-src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=500&q=80" alt="Espresso" class="product-img">
+                    <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=500&q=80" alt="Espresso" class="product-img">
                     <div class="quick-view-overlay">
                         <button class="btn-premium secondary">👁️ Quick View</button>
                     </div>
@@ -116,7 +116,7 @@
                         <span class="badge weight">250g</span>
                     </div>
                     <button class="wishlist-btn">♡</button>
-                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=30&q=20&blur=20" data-src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80" alt="Filtre Kahve" class="product-img">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80" alt="Filtre Kahve" class="product-img">
                     <div class="quick-view-overlay">
                         <button class="btn-premium secondary">👁️ Quick View</button>
                     </div>
@@ -133,13 +133,13 @@
             </div>
 
             <!-- Kart 3 -->
-            <div class="product-card animate fade-up delay-3">
+            <div class="product-card animate fade-up delay-4">
                 <div class="card-image-wrapper">
                     <div class="card-badges">
                         <span class="badge weight">1000g</span>
                     </div>
                     <button class="wishlist-btn">♡</button>
-                    <img src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=30&q=20&blur=20" data-src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=500&q=80" alt="Kolombiya" class="product-img">
+                    <img src="https://images.unsplash.com/photo-1587734195503-904fca47e0e9?auto=format&fit=crop&w=500&q=80" alt="Kolombiya" class="product-img">
                     <div class="quick-view-overlay">
                         <button class="btn-premium secondary">👁️ Quick View</button>
                     </div>
@@ -160,9 +160,9 @@
 
     <!-- KAHVE QUİZİ -->
     <section id="quiz" class="quiz-section page-bg" style="padding: 100px 50px; text-align:center;">
-        <div class="quiz-container animate zoom-in">
-            <h2>Sana En Uygun Kahveyi Bulalım ☕</h2>
-            <div id="quiz-question-box" style="margin-top: 30px;">
+        <div class="quiz-container">
+            <h2 class="animate zoom-in">Sana En Uygun Kahveyi Bulalım ☕</h2>
+            <div id="quiz-question-box" class="animate fade-up delay-1" style="margin-top: 30px;">
                 <p id="quiz-question" style="font-size: 1.2rem; margin-bottom: 20px;">Sert ve yoğun kahve sever misin?</p>
                 <div class="quiz-buttons" style="display: flex; justify-content: center; gap: 15px;">
                     <button class="btn-premium primary" onclick="nextQuiz('evet')">Evet</button>
@@ -180,18 +180,18 @@
     <!-- DÜNYA KAHVE HARİTASI -->
     <section class="map-section" style="padding: 80px 50px; text-align:center; background:#111;">
         <h2 class="section-title animate fade-up">Çekirdeklerimizin Yolculuğu 🗺️</h2>
-        <div class="world-map-container animate zoom-out" style="position: relative; max-width: 1000px; margin: 0 auto;">
+        <div class="world-map-container animate zoom-in delay-1" style="position: relative; max-width: 1000px; margin: 0 auto;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg" alt="Dünya Haritası" class="world-map-img" style="width: 100%; opacity: 0.5;">
             
-            <div class="map-pin" style="position: absolute; top: 60%; left: 30%;">
+            <div class="map-pin animate blur-in delay-2" style="position: absolute; top: 60%; left: 30%;">
                 <span class="pin-dot">📍</span>
                 <div class="pin-tooltip"><strong>🇧🇷 Brezilya</strong><br>Düşük asidite, çikolata ve fındık notaları.</div>
             </div>
-            <div class="map-pin" style="position: absolute; top: 55%; left: 22%;">
+            <div class="map-pin animate blur-in delay-3" style="position: absolute; top: 55%; left: 22%;">
                 <span class="pin-dot">📍</span>
                 <div class="pin-tooltip"><strong>🇨🇴 Kolombiya</strong><br>Karamel tatlılığı, orta gövde.</div>
             </div>
-            <div class="map-pin" style="position: absolute; top: 52%; left: 55%;">
+            <div class="map-pin animate blur-in delay-4" style="position: absolute; top: 52%; left: 55%;">
                 <span class="pin-dot">📍</span>
                 <div class="pin-tooltip"><strong>🇪🇹 Etiyopya</strong><br>Çiçeksi ve meyvemsi, yüksek asidite.</div>
             </div>
