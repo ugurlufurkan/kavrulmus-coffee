@@ -3,40 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | Kavrulmuş</title>
+    <title>Kahve Rehberi | Kavrulmuş</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- Ortak CSS Dosyaları -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/blog.css"> <!-- YENİ: Blog kart stilleri -->
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/modal.css">
 </head>
-<body class="page-bg">
-    <div class="cursor-ring" id="cursor-ring"></div>
-    <nav class="navbar scrolled" id="navbar">
-        <div class="logo"><a href="index.html" style="color:inherit; text-decoration:none;">Kavrulmuş</a></div>
-        <ul class="nav-links"><li><a href="index.html">Anasayfa</a></li><li><a href="urunler.html">Ürünlerimiz</a></li><li><a href="blog.html" style="color:var(--primary-color);">Blog</a></li></ul>
+<body>
+
+    <!-- PREMIUM NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+            Kavrulmuş<span>.</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Anasayfa</a></li>
+            <li><a href="urunler.html">Ürünlerimiz</a></li>
+            <li><a href="blog.html" style="color: var(--gold-accent);">Blog</a></li>
+            <li><a href="iletisim.html">İletişim</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button id="open-auth" class="btn-text">👤 Giriş Yap</button>
+            <button class="btn-premium cart-btn" id="cart-icon">
+                🛒 Sepet (<span id="cart-count">0</span>)
+            </button>
+        </div>
     </nav>
 
-    <div class="page-container">
-        <h2 class="section-title">Kahve Rehberi & Blog 📖</h2>
-        <div class="product-grid">
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=400" alt="Blog">
-                <h3 style="margin-top:15px; color:var(--primary-color);">Espresso ile Americano Farkı</h3>
-                <p style="padding:0 15px; color:var(--text-muted);">Su oranı, basınç ve krema farkları nelerdir? Gerçek İtalyan usulü...</p>
-                <button class="cta-btn" style="margin:15px; padding:8px;">Devamını Oku</button>
+    <!-- SAYFA BAŞLIĞI -->
+    <header class="page-header">
+        <h1>Kahve Rehberi</h1>
+        <p>Demleme tekniklerinden çekirdek hikayelerine kadar, kahve kültürüne dair aradığınız her şey burada.</p>
+    </header>
+
+    <!-- FİLTRE MENÜSÜ -->
+    <div class="filter-menu">
+        <button class="filter-btn active">Tümü</button>
+        <button class="filter-btn">Demleme Rehberi</button>
+        <button class="filter-btn">Çekirdek Hikayeleri</button>
+        <button class="filter-btn">Haberler</button>
+    </div>
+
+    <!-- BLOG IZGARASI -->
+    <section class="blog-section">
+        <div class="blog-grid">
+            
+            <!-- Blog Kart 1 -->
+            <article class="blog-card">
+                <div class="blog-img-wrapper">
+                    <span class="blog-category">Demleme Rehberi</span>
+                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=600&q=80" alt="V60 Demleme" class="blog-img">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">📅 12 Mayıs 2024 • ⏱️ 5 dk okuma</div>
+                    <h3 class="blog-title">Mükemmel V60 Demlemenin Sırları</h3>
+                    <p class="blog-excerpt">Evde profesyonel kalitede filtre kahve demlemek sanıldığı kadar zor değil. Suyun sıcaklığından döküş hızına kadar dikkat etmeniz gereken püf noktalar...</p>
+                    <a href="#" class="read-more">Devamını Oku <span>→</span></a>
+                </div>
+            </article>
+
+            <!-- Blog Kart 2 -->
+            <article class="blog-card">
+                <div class="blog-img-wrapper">
+                    <span class="blog-category">Çekirdek Hikayeleri</span>
+                    <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?auto=format&fit=crop&w=600&q=80" alt="Etiyopya Kahvesi" class="blog-img">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">📅 08 Mayıs 2024 • ⏱️ 7 dk okuma</div>
+                    <h3 class="blog-title">Kahvenin Anavatanı: Etiyopya Yirgacheffe</h3>
+                    <p class="blog-excerpt">Çiçeksi aromaları ve parlak asiditesiyle dünyayı büyüleyen Yirgacheffe çekirdeklerinin, Afrika'nın yüksek rakımlı dağlarından fincanımıza uzanan yolculuğu.</p>
+                    <a href="#" class="read-more">Devamını Oku <span>→</span></a>
+                </div>
+            </article>
+
+            <!-- Blog Kart 3 -->
+            <article class="blog-card">
+                <div class="blog-img-wrapper">
+                    <span class="blog-category">Haberler</span>
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80" alt="Kavurma Atölyesi" class="blog-img">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">📅 01 Mayıs 2024 • ⏱️ 3 dk okuma</div>
+                    <h3 class="blog-title">Aksaray'daki Yeni Kavurma Atölyemiz Açıldı</h3>
+                    <p class="blog-excerpt">3. nesil kahve deneyimini bir adım öteye taşıyoruz. Haftalık taze kavurma yaptığımız yeni atölyemizin kapılarını kahve severler için araladık.</p>
+                    <a href="#" class="read-more">Devamını Oku <span>→</span></a>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- PREMIUM FOOTER -->
+    <footer class="premium-footer">
+        <div class="footer-grid">
+            <div class="footer-col footer-brand">
+                <h2>Kavrulmuş<span>.</span></h2>
+                <p>Aksaray Merkez'in 3. nesil kahve deneyimi. Çekirdekten fincana uzanan bu premium lezzet serüvenine ortak olun.</p>
             </div>
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=400" alt="Blog">
-                <h3 style="margin-top:15px; color:var(--primary-color);">Arabica mı Robusta mı?</h3>
-                <p style="padding:0 15px; color:var(--text-muted);">Dünyanın en popüler iki çekirdek türü arasındaki kafein ve tat savaşı.</p>
-                <button class="cta-btn" style="margin:15px; padding:8px;">Devamını Oku</button>
+            <div class="footer-col">
+                <h3>Keşfet</h3>
+                <ul class="footer-links">
+                    <li><a href="hakkimizda.html">Hikayemiz</a></li>
+                    <li><a href="urunler.html">Menü & Sipariş</a></li>
+                    <li><a href="blog.html">Kahve Rehberi</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                </ul>
             </div>
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1517701550927-30cfcb11f267?q=80&w=400" alt="Blog">
-                <h3 style="margin-top:15px; color:var(--primary-color);">Evde Cold Brew Nasıl Yapılır?</h3>
-                <p style="padding:0 15px; color:var(--text-muted);">Yaz aylarının vazgeçilmezi soğuk demleme kahvenin altın oranları.</p>
-                <button class="cta-btn" style="margin:15px; padding:8px;">Devamını Oku</button>
+            <div class="footer-col footer-contact">
+                <h3>İletişim</h3>
+                <p>📍 Kafeler Caddesi No:45, Aksaray</p>
+                <p>📞 +90 (555) 123 45 67</p>
             </div>
         </div>
-    </div>
-    <script src="script.js"></script>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Kavrulmuş Kahve - Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- SEPET VE MODALLAR (Ana Şablon ile Aynı) -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header"><h2>Sepetiniz</h2><button class="close-cart" id="close-cart">✕</button></div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total-box"><span>Ara Toplam:</span><span><span id="cart-total">0.00</span> TL</span></div>
+            <button class="btn-premium primary checkout-btn" id="go-to-checkout">Siparişi Tamamla</button>
+        </div>
+    </aside>
+    <div id="toast-container" class="toast-container"></div>
+    
+    <div class="modal-overlay" id="auth-modal"><div class="modal-box"><span class="close-modal" id="close-auth">&times;</span><h2 style="color:var(--gold-accent); margin-bottom:20px;">Giriş Yap</h2><form id="login-form" class="modal-form active"><input type="email" placeholder="E-Posta" required><input type="password" placeholder="Şifre" required><button type="submit" class="btn-premium primary">Giriş</button></form></div></div>
+    <div class="modal-overlay" id="checkout-modal"><div class="modal-box"><span class="close-modal close-modal-btn">&times;</span><h2 style="color:var(--gold-accent); margin-bottom:20px;">Ödeme</h2><form id="checkout-form" class="modal-form active"><input type="text" placeholder="Ad Soyad" required><button type="submit" class="btn-premium primary">Onayla</button></form></div></div>
+    <div class="modal-overlay" id="tracking-modal"><div class="modal-box"><span class="close-modal close-modal-btn">&times;</span><h2 style="color:var(--gold-accent);">Siparişiniz Alındı!</h2><div class="progress-bar-bg"><div class="progress-fill" id="track-progress"></div></div></div></div>
+
+    <!-- JS Modülleri -->
+    <script src="js/app.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/modal.js"></script>
 </body>
 </html>

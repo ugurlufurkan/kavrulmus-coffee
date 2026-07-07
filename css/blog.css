@@ -1,0 +1,122 @@
+/* css/blog.css */
+
+.blog-section {
+    padding: 50px 5% 100px;
+    background-color: var(--bg-dark);
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Premium Blog Kartı */
+.blog-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(200, 159, 93, 0.3);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.blog-img-wrapper {
+    height: 240px;
+    overflow: hidden;
+    position: relative;
+}
+
+.blog-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.blog-card:hover .blog-img {
+    transform: scale(1.1);
+}
+
+/* Kategori Etiketi */
+.blog-category {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--gold-accent);
+    color: var(--bg-dark);
+    padding: 5px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    z-index: 2;
+}
+
+.blog-content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.blog-meta {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    font-family: var(--font-body);
+}
+
+.blog-title {
+    font-size: 1.4rem;
+    color: var(--text-light);
+    margin-bottom: 15px;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.blog-card:hover .blog-title {
+    color: var(--gold-accent);
+}
+
+.blog-excerpt {
+    color: #999;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.read-more {
+    margin-top: auto;
+    color: var(--text-light);
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.read-more:hover {
+    color: var(--gold-accent);
+}
+
+.read-more span {
+    transition: transform 0.3s ease;
+}
+
+.read-more:hover span {
+    transform: translateX(5px);
+}
