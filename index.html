@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/toast.css">
     <link rel="stylesheet" href="css/cart.css">
-    <link rel="stylesheet" href="css/footer.css"> <!-- YENİ EKLENDİ -->
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/modal.css"> <!-- YENİ EKLENDİ -->
 </head>
 <body>
     <!-- Altın Cursor -->
@@ -196,7 +197,7 @@
         </div>
     </section>
 
-    <!-- YENİ PREMIUM FOOTER -->
+    <!-- PREMIUM FOOTER -->
     <footer class="premium-footer">
         <div class="footer-grid">
             <div class="footer-col footer-brand">
@@ -265,6 +266,67 @@
         </div>
     </aside>
 
+    <!-- 1. GİRİŞ YAP / KAYIT OL MODALI -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-box">
+            <span class="close-modal" id="close-auth">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login">Giriş Yap</button>
+                <button class="auth-tab" id="tab-register">Kayıt Ol</button>
+            </div>
+            <form id="login-form" class="modal-form active">
+                <input type="email" placeholder="E-Posta Adresiniz" required>
+                <input type="password" placeholder="Şifreniz" required>
+                <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Giriş Yap</button>
+            </form>
+            <form id="register-form" class="modal-form">
+                <input type="text" placeholder="Ad Soyad" required>
+                <input type="email" placeholder="E-Posta Adresiniz" required>
+                <input type="password" placeholder="Şifre Belirleyin" required>
+                <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Hesap Oluştur</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. GÜVENLİ ÖDEME (CHECKOUT) MODALI -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-box" style="max-width: 500px;">
+            <span class="close-modal close-modal-btn">&times;</span>
+            <h2 style="color:var(--gold-accent); margin-bottom:20px; font-family:var(--font-heading);">Güvenli Ödeme</h2>
+            <form id="checkout-form" class="modal-form active">
+                <input type="text" placeholder="Ad Soyad" required>
+                <input type="tel" placeholder="Telefon (05XX...)" required>
+                <textarea rows="3" placeholder="Teslimat Adresi" required></textarea>
+                <select required>
+                    <option value="">Ödeme Yöntemi Seçin</option>
+                    <option value="card">Kredi/Banka Kartı</option>
+                    <option value="door">Kapıda Ödeme</option>
+                </select>
+                <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Siparişi Onayla</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. SİPARİŞ TAKİP MODALI -->
+    <div class="modal-overlay" id="tracking-modal">
+        <div class="modal-box" style="max-width: 500px;">
+            <span class="close-modal close-modal-btn">&times;</span>
+            <h2 style="color:var(--gold-accent); margin-bottom:10px; font-family:var(--font-heading);">Siparişiniz Alındı!</h2>
+            <p style="margin-bottom:30px; color:#999;">Takip numaranız: <strong>#KVR-9823</strong></p>
+            
+            <div class="tracking-stages">
+                <div class="track-stage" id="stage-1">📝 Sipariş Onaylandı</div>
+                <div class="track-stage" id="stage-2">☕ Barista Hazırlıyor</div>
+                <div class="track-stage" id="stage-3">🛵 Kuryede</div>
+                <div class="track-stage" id="stage-4">🎉 Teslim Edildi</div>
+            </div>
+            
+            <div class="progress-bar-bg">
+                <div class="progress-fill" id="track-progress"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Bildirimleri İçin Kutu -->
     <div id="toast-container" class="toast-container"></div>
 
@@ -272,6 +334,7 @@
     <script src="js/app.js"></script>
     <script src="js/toast.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/modal.js"></script> <!-- YENİ EKLENDİ -->
     <script src="js/script.js"></script> 
 </body>
 </html>

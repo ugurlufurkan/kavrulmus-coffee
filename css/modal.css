@@ -1,0 +1,155 @@
+/* css/modal.css */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-box {
+    background: var(--bg-dark);
+    border: 1px solid rgba(200, 159, 93, 0.3);
+    width: 90%;
+    max-width: 450px;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-box {
+    transform: translateY(0);
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #e63946;
+}
+
+/* Form Stilleri */
+.modal-form {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-form.active {
+    display: flex;
+}
+
+.modal-form input, 
+.modal-form textarea, 
+.modal-form select {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+}
+
+.modal-form input:focus, 
+.modal-form textarea:focus, 
+.modal-form select:focus {
+    outline: none;
+    border-color: var(--gold-accent);
+}
+
+.modal-form select option {
+    background: var(--bg-dark);
+    color: var(--text-light);
+}
+
+/* Sekmeler (Tablar) */
+.auth-tabs {
+    display: flex;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #666;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.auth-tab.active {
+    color: var(--gold-accent);
+    border-bottom: 2px solid var(--gold-accent);
+}
+
+/* Sipariş Takip Tasarımı */
+.tracking-stages {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.track-stage {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    font-weight: 500;
+    transition: color 0.4s ease;
+}
+
+.track-stage.active {
+    color: var(--gold-accent);
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--gold-accent);
+    border-radius: 10px;
+    transition: width 1s linear;
+}
