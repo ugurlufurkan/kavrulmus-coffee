@@ -63,8 +63,10 @@ npm run seed
 | `JWT_SECRET` | Müşteri/admin token imzalama |
 | `ADMIN_PASSWORD` | Admin panel giriş şifresi |
 | `DB_*` | PostgreSQL bağlantı bilgileri |
-| `EMAIL_USER` / `EMAIL_PASS` | Gmail SMTP (opsiyonel) |
+| `EMAIL_USER` / `EMAIL_PASS` | Gmail + [uygulama şifresi](https://myaccount.google.com/apppasswords) |
 | `ADMIN_EMAIL` | Sipariş/iletişim bildirimleri |
+
+Sunucu başlarken terminalde `📧 Gmail SMTP bağlantısı hazır.` görürseniz mail çalışıyordur.
 
 ## Veritabanı
 

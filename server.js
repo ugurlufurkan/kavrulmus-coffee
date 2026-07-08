@@ -89,6 +89,25 @@ const transporter = nodemailer.createTransport({
     auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
 });
 
+function isMailConfigured() {
+    return Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
+}
+
+async function verifyMailOnStartup() {
+    if (!isMailConfigured()) {
+        console.warn('📭 E-posta devre dışı — .env dosyasına EMAIL_USER ve EMAIL_PASS (Gmail uygulama şifresi) ekleyin.');
+        return;
+    }
+    try {
+        await transporter.verify();
+        console.log('📧 Gmail SMTP bağlantısı hazır.');
+    } catch (err) {
+        console.warn('⚠️  Gmail SMTP doğrulanamadı:', err.message);
+        console.warn('   Google Hesap > Güvenlik > Uygulama şifreleri ile yeni şifre oluşturun.');
+    }
+}
+verifyMailOnStartup();
+
 function escapeHtml(str) {
     if (str == null) return '';
     return String(str)
@@ -106,16 +125,23 @@ function isValidEmail(email) {
 }
 
 async function sendMailSafe(options) {
+    if (!isMailConfigured()) {
+        return false;
+    }
     try {
-        await transporter.sendMail(options);
+        await transporter.sendMail({
+            ...options,
+            from: options.from || `"Kavrulmuş Kahve" <${process.env.EMAIL_USER}>`
+        });
+        return true;
     } catch (err) {
         console.error('❌ Mail gönderilemedi:', err.message);
+        return false;
     }
 }
 
 async function hosgeldinMailiGonder(kullanici) {
-    await sendMailSafe({
-        from: `"Kavrulmuş Kahve" <${process.env.EMAIL_USER}>`,
+    return sendMailSafe({
         to: kullanici.email,
         subject: 'Kavrulmuş\'a Hoş Geldiniz! ☕',
         html: `
@@ -129,8 +155,7 @@ async function hosgeldinMailiGonder(kullanici) {
 
 async function sifreSifirlamaMailiGonder(email, token) {
     const link = `${APP_URL}/sifre-sifirla.html?token=${token}`;
-    await sendMailSafe({
-        from: `"Kavrulmuş Kahve" <${process.env.EMAIL_USER}>`,
+    return sendMailSafe({
         to: email,
         subject: 'Şifre Sıfırlama — Kavrulmuş',
         html: `
@@ -473,9 +498,15 @@ app.post('/api/auth/forgot-password', async (req, res) => {
                 'INSERT INTO password_reset_tokens (user_id, token, expires_at) VALUES ($1, $2, $3)',
                 [result.rows[0].id, token, expires]
             );
-            sifreSifirlamaMailiGonder(email, token).catch(() => {});
+            const mailOk = await sifreSifirlamaMailiGonder(email, token);
+            if (!mailOk && !isMailConfigured()) {
+                return res.json({
+                    mesaj: 'Şifre sıfırlama kaydı oluşturuldu ancak e-posta gönderilemedi. Sunucu yöneticisi EMAIL_USER/EMAIL_PASS ayarlamalı.',
+                    mailGonderildi: false
+                });
+            }
         }
-        res.json({ mesaj: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi (varsa).' });
+        res.json({ mesaj: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi (varsa).', mailGonderildi: isMailConfigured() });
     } catch (err) {
         console.error(err);
         res.status(500).json({ mesaj: 'İşlem başarısız.' });
@@ -755,7 +786,7 @@ app.post('/api/iletisim', async (req, res) => {
             'INSERT INTO contact_messages (ad_soyad, email, konu, mesaj) VALUES ($1, $2, $3, $4)',
             [adSoyad, email, konu, mesaj]
         );
-        await sendMailSafe({
+        const mailOk = await sendMailSafe({
             from: `"Kavrulmuş İletişim" <${process.env.EMAIL_USER}>`,
             to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
             replyTo: email,
@@ -767,7 +798,12 @@ app.post('/api/iletisim', async (req, res) => {
                 <p>${escapeHtml(mesaj).replace(/\n/g, '<br>')}</p>
             `
         });
-        res.status(201).json({ mesaj: 'Mesajınız alındı. En kısa sürede dönüş yapacağız.' });
+        res.status(201).json({
+            mesaj: mailOk
+                ? 'Mesajınız alındı. En kısa sürede dönüş yapacağız.'
+                : 'Mesajınız kaydedildi. (E-posta bildirimi yapılandırılmamış.)',
+            mailGonderildi: mailOk
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({ mesaj: 'Mesaj gönderilemedi.' });
