@@ -307,7 +307,7 @@ function signCustomerToken(user) {
 app.post('/api/admin/login', (req, res) => {
     const { password } = req.body;
     if (!password || password !== ADMIN_PASSWORD) return res.status(401).json({ mesaj: 'Hatalı admin şifresi!' });
-    const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '4h' });
+    const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '1h' });
     res.json({ mesaj: 'Admin girişi başarılı!', token });
 });
 

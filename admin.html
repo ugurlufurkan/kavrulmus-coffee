@@ -14,6 +14,8 @@
         .nav-btn { display: block; width: 100%; padding: 15px; margin-bottom: 10px; background: transparent; color: #aaa; border: 1px solid #333; cursor: pointer; border-radius: 8px; text-align: left; font-size: 1rem; transition: 0.3s; }
         .nav-btn:hover { border-color: #d4af37; color: #fff; }
         .nav-btn.active { background: #d4af37; color: #111; font-weight: bold; border-color: #d4af37; }
+        .logout-btn { display: block; width: 100%; padding: 12px; margin-top: 20px; background: transparent; color: #ff6b6b; border: 1px solid #ff6b6b; cursor: pointer; border-radius: 8px; font-size: 0.95rem; transition: 0.3s; }
+        .logout-btn:hover { background: #ff6b6b; color: #111; }
         
         .content { flex: 1; padding: 40px 50px; background: #141414; }
         .panel-section { display: none; animation: fadeIn 0.4s ease; }
@@ -64,7 +66,8 @@
         <button class="nav-btn active" onclick="switchTab('tab-urunler', this)">📦 Ürün Yönetimi</button>
         <button class="nav-btn" onclick="switchTab('tab-siparisler', this)">📋 Sipariş Yönetimi</button>
         <button class="nav-btn" onclick="switchTab('tab-mesajlar', this)">✉️ İletişim Mesajları</button>
-        <a href="index.html" style="color:#d4af37; text-decoration:none; display:block; margin-top:80px; text-align:center; font-size:0.9rem;">← Mağazaya Dön</a>
+        <button class="logout-btn" onclick="adminLogout()">🚪 Çıkış Yap</button>
+        <a href="index.html" style="color:#d4af37; text-decoration:none; display:block; margin-top:30px; text-align:center; font-size:0.9rem;">← Mağazaya Dön</a>
     </div>
 
     <div class="content">
@@ -130,10 +133,57 @@
         let globalProductsList = [];
         const ORDER_STATUSES = ['Hazırlanıyor', 'Kargoda', 'Teslim Edildi', 'İptal'];
 
-        function checkAuth() {
-            const token = localStorage.getItem('adminToken');
-            document.getElementById('login-overlay').style.display = token ? 'none' : 'flex';
-            if (token) fetchProducts();
+        const ADMIN_TOKEN_KEY = 'adminToken';
+
+        function getAdminToken() {
+            return sessionStorage.getItem(ADMIN_TOKEN_KEY);
+        }
+
+        function setAdminToken(token) {
+            sessionStorage.setItem(ADMIN_TOKEN_KEY, token);
+        }
+
+        function clearAdminToken() {
+            sessionStorage.removeItem(ADMIN_TOKEN_KEY);
+            localStorage.removeItem(ADMIN_TOKEN_KEY);
+        }
+
+        function showLoginOverlay(message) {
+            document.getElementById('login-overlay').style.display = 'flex';
+            if (message) document.getElementById('login-error').textContent = message;
+        }
+
+        function hideLoginOverlay() {
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('login-error').textContent = '';
+        }
+
+        async function checkAuth() {
+            localStorage.removeItem(ADMIN_TOKEN_KEY);
+
+            const token = getAdminToken();
+            if (!token) {
+                showLoginOverlay();
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/admin/verify', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!res.ok) {
+                    clearAdminToken();
+                    showLoginOverlay('Oturum geçersiz, tekrar giriş yap.');
+                    return;
+                }
+
+                hideLoginOverlay();
+                fetchProducts();
+            } catch {
+                clearAdminToken();
+                showLoginOverlay('Sunucuya bağlanılamadı.');
+            }
         }
 
         async function adminLogin() {
@@ -151,13 +201,19 @@
                     errorEl.textContent = data.mesaj || 'Giriş başarısız!';
                     return;
                 }
-                localStorage.setItem('adminToken', data.token);
-                document.getElementById('login-overlay').style.display = 'none';
+                setAdminToken(data.token);
+                hideLoginOverlay();
                 passInput.value = '';
                 fetchProducts();
             } catch {
                 errorEl.textContent = 'Sunucuya bağlanılamadı.';
             }
+        }
+
+        function adminLogout() {
+            clearAdminToken();
+            showLoginOverlay();
+            document.getElementById('admin-pass-input').value = '';
         }
 
         document.getElementById('admin-pass-input').addEventListener('keydown', (e) => {
@@ -166,9 +222,8 @@
 
         function handleAuthError(status) {
             if (status === 401 || status === 403) {
-                localStorage.removeItem('adminToken');
-                document.getElementById('login-overlay').style.display = 'flex';
-                document.getElementById('login-error').textContent = 'Oturum sona erdi, tekrar giriş yap.';
+                clearAdminToken();
+                showLoginOverlay('Oturum sona erdi, tekrar giriş yap.');
             }
         }
 
@@ -207,7 +262,7 @@
 
         window.deleteProduct = async function(id) {
             if (!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
-            const token = localStorage.getItem('adminToken');
+            const token = getAdminToken();
             try {
                 const res = await fetch(`/api/urunler/${id}`, {
                     method: 'DELETE',
@@ -261,7 +316,7 @@
                 resimUrl: document.getElementById('resimUrl').value,
                 stok: document.getElementById('stok').value
             };
-            const token = localStorage.getItem('adminToken');
+            const token = getAdminToken();
             const isEdit = !!editId;
             try {
                 const response = await fetch(isEdit ? `/api/urunler/${editId}` : '/api/urunler', {
@@ -282,7 +337,7 @@
         async function fetchOrders() {
             const tbody = document.getElementById('orders-tbody');
             tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 30px;">Veriler yükleniyor...</td></tr>';
-            const token = localStorage.getItem('adminToken');
+            const token = getAdminToken();
             try {
                 const response = await fetch('/api/siparisler', { headers: { 'Authorization': `Bearer ${token}` } });
                 if (!response.ok) {
@@ -323,7 +378,7 @@
         }
 
         window.updateOrderStatus = async function(orderId, durum) {
-            const token = localStorage.getItem('adminToken');
+            const token = getAdminToken();
             try {
                 const res = await fetch(`/api/siparisler/${orderId}/durum`, {
                     method: 'PUT',
@@ -345,7 +400,7 @@
         async function fetchMessages() {
             const tbody = document.getElementById('messages-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;">Yükleniyor...</td></tr>';
-            const token = localStorage.getItem('adminToken');
+            const token = getAdminToken();
             try {
                 const res = await fetch('/api/iletisim', { headers: { 'Authorization': `Bearer ${token}` } });
                 if (res.status === 401 || res.status === 403) return handleAuthError(res.status);
