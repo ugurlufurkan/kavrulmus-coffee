@@ -139,7 +139,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             closeCart();
-            if(checkoutModal) checkoutModal.classList.add('active');
+            if (checkoutModal) {
+                const user = JSON.parse(localStorage.getItem('kavrulmus_user') || 'null');
+                const nameInput = document.getElementById('checkout-name');
+                const phoneInput = document.getElementById('checkout-phone');
+                if (user && nameInput && !nameInput.value.trim()) nameInput.value = user.name || '';
+                if (user && phoneInput && !phoneInput.value.trim()) phoneInput.value = user.phone || '';
+                checkoutModal.classList.add('active');
+            }
         });
     }
 
@@ -185,11 +192,19 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutForm.addEventListener('submit', async (e) => {
             e.preventDefault(); 
             
-            const inputs = checkoutForm.querySelectorAll('input');
-            const isim = inputs[0].value;
-            const tel = inputs[1].value;
-            const adres = checkoutForm.querySelector('textarea').value;
-            const odeme = checkoutForm.querySelector('select').value;
+            const isim = document.getElementById('checkout-name')?.value?.trim()
+                || checkoutForm.querySelector('input[type="text"]')?.value?.trim();
+            const tel = document.getElementById('checkout-phone')?.value?.trim()
+                || checkoutForm.querySelector('input[type="tel"]')?.value?.trim();
+            const adres = document.getElementById('checkout-address')?.value?.trim()
+                || checkoutForm.querySelector('textarea')?.value?.trim();
+            const odeme = document.getElementById('odeme-yontemi-select')?.value
+                || checkoutForm.querySelector('select')?.value;
+
+            if (!isim || !tel || !adres || !odeme) {
+                window.showToast('❌ Lütfen tüm teslimat bilgilerini doldurun.');
+                return;
+            }
             const user = JSON.parse(localStorage.getItem('kavrulmus_user') || 'null');
             const userEmail = user?.email || 'Misafir';
 
@@ -229,13 +244,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     cart = [];
                     renderCart();
-                    document.getElementById('checkout-modal').classList.remove('active');
-                    const trackingNoEl = document.querySelector('#tracking-modal p strong');
-                    if (trackingNoEl) trackingNoEl.innerText = `#${data.takipNo}`;
-                    document.getElementById('tracking-modal').classList.add('active');
+                    document.getElementById('checkout-modal')?.classList.remove('active');
                     checkoutForm.reset();
                     if (cardFields) cardFields.classList.add('hidden');
                     window.showToast(`✅ ${data.mesaj}`);
+                    if (typeof window.showOrderTracking === 'function') {
+                        window.showOrderTracking(data.takipNo);
+                    } else {
+                        document.getElementById('tracking-modal')?.classList.add('active');
+                    }
                 } else {
                     window.showToast(`❌ ${data.mesaj}`);
                 }

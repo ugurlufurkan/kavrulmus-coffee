@@ -550,25 +550,74 @@ app.post('/api/siparis', async (req, res) => {
     const musteriAd = sanitizeText(req.body.musteriAd, 255);
     const telefon = sanitizeText(req.body.telefon, 50);
     const adres = sanitizeText(req.body.adres, 500);
-    const { odemeYontemi, sepet, toplamTutar, userEmail } = req.body;
-    if (!musteriAd || !telefon || !adres || !Array.isArray(sepet) || !sepet.length) {
+    const odemeYontemi = sanitizeText(req.body.odemeYontemi, 50);
+    const { sepet, userEmail } = req.body;
+
+    if (!musteriAd || !telefon || !adres || !odemeYontemi || !Array.isArray(sepet) || !sepet.length) {
         return res.status(400).json({ mesaj: 'Eksik sipariş bilgisi.' });
     }
+
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
+
+        const validatedSepet = [];
+        let serverTotal = 0;
+
+        for (const item of sepet) {
+            const productId = parseInt(item.id, 10);
+            const qty = parseInt(item.quantity, 10);
+            if (!productId || !qty || qty < 1 || qty > 99) {
+                await client.query('ROLLBACK');
+                return res.status(400).json({ mesaj: 'Geçersiz sepet ürünü.' });
+            }
+
+            const prodResult = await client.query(
+                'SELECT id, baslik, fiyat, stok, resim FROM products WHERE id = $1 FOR UPDATE',
+                [productId]
+            );
+            if (!prodResult.rows.length) {
+                await client.query('ROLLBACK');
+                return res.status(400).json({ mesaj: `Ürün bulunamadı (#${productId}).` });
+            }
+
+            const prod = prodResult.rows[0];
+            if (prod.stok < qty) {
+                await client.query('ROLLBACK');
+                return res.status(400).json({ mesaj: `"${prod.baslik}" için yeterli stok yok (kalan: ${prod.stok}).` });
+            }
+
+            const price = parseFloat(prod.fiyat);
+            serverTotal += price * qty;
+            validatedSepet.push({
+                id: String(prod.id),
+                title: prod.baslik,
+                price,
+                image: prod.resim || item.image || '',
+                quantity: qty
+            });
+        }
+
         const takipNo = 'KVR-' + Math.floor(1000 + Math.random() * 9000);
         await client.query(
             `INSERT INTO orders (id, musteri_ad, telefon, adres, odeme_yontemi, user_email, urunler, toplam_tutar)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-            [takipNo, musteriAd, telefon, adres, odemeYontemi, userEmail || 'Misafir', JSON.stringify(sepet), toplamTutar]
+            [takipNo, musteriAd, telefon, adres, odemeYontemi, userEmail || 'Misafir', JSON.stringify(validatedSepet), serverTotal]
         );
-        for (const item of sepet) {
-            await client.query('UPDATE products SET stok = GREATEST(0, stok - $1) WHERE id = $2', [item.quantity, item.id]);
+
+        for (const item of validatedSepet) {
+            await client.query(
+                'UPDATE products SET stok = stok - $1 WHERE id = $2',
+                [item.quantity, item.id]
+            );
         }
+
         await client.query('COMMIT');
-        siparisMailleriGonder({ musteriAd, telefon, adres, odemeYontemi, sepet, toplamTutar, userEmail, takipNo }).catch(() => {});
-        res.status(201).json({ mesaj: 'Sipariş başarıyla alındı!', takipNo });
+        siparisMailleriGonder({
+            musteriAd, telefon, adres, odemeYontemi,
+            sepet: validatedSepet, toplamTutar: serverTotal, userEmail, takipNo
+        }).catch(() => {});
+        res.status(201).json({ mesaj: 'Sipariş başarıyla alındı!', takipNo, toplamTutar: serverTotal });
     } catch (err) {
         await client.query('ROLLBACK');
         console.error(err);

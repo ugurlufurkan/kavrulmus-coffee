@@ -90,8 +90,8 @@
                 <ul class="footer-links">
                     <li><a href="kvkk.html">KVKK Aydınlatma Metni</a></li>
                     <li><a href="iade-sartlari.html">İade ve Değişim Şartları</a></li>
-                    <li><a href="#">Mesafeli Satış Sözleşmesi</a></li>
-                    <li><a href="#">Sıkça Sorulan Sorular</a></li>
+                    <li><a href="mesafeli-satis.html">Mesafeli Satış Sözleşmesi</a></li>
+                    <li><a href="sss.html">Sıkça Sorulan Sorular</a></li>
                 </ul>
             </div>
 
@@ -138,6 +138,7 @@
             </form>
             <form id="register-form" class="modal-form">
                 <input type="text" placeholder="Ad Soyad" required>
+                <input type="tel" placeholder="Telefon (05XX...)" required>
                 <input type="email" placeholder="E-Posta Adresiniz" required>
                 <input type="password" placeholder="Şifre Belirleyin" required>
                 <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Hesap Oluştur</button>
@@ -150,14 +151,22 @@
             <span class="close-modal close-modal-btn">&times;</span>
             <h2 style="color:var(--gold-accent); margin-bottom:20px;">Güvenli Ödeme</h2>
             <form id="checkout-form" class="modal-form active">
-                <input type="text" placeholder="Ad Soyad" required>
-                <input type="tel" placeholder="Telefon (05XX...)" required>
-                <textarea rows="3" placeholder="Teslimat Adresi" required></textarea>
-                <select required>
+                <input type="text" id="checkout-name" placeholder="Ad Soyad" required>
+                <input type="tel" id="checkout-phone" placeholder="Telefon (05XX...)" required>
+                <textarea id="checkout-address" rows="3" placeholder="Teslimat Adresi" required></textarea>
+                <select id="odeme-yontemi-select" required>
                     <option value="">Ödeme Yöntemi Seçin</option>
                     <option value="card">Kredi/Banka Kartı</option>
                     <option value="door">Kapıda Ödeme</option>
                 </select>
+                <div id="card-fields" class="hidden">
+                    <input type="text" id="card-number" placeholder="Kart Numarası" inputmode="numeric" autocomplete="off">
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="card-expiry" placeholder="AA/YY" inputmode="numeric" autocomplete="off" style="flex:1;">
+                        <input type="text" id="card-cvv" placeholder="CVV" inputmode="numeric" autocomplete="off" style="flex:1;">
+                    </div>
+                    <p style="font-size:0.75rem; color:#888; margin-top:-10px; margin-bottom:15px;">🔒 Demo ödeme — kart bilgileriniz kaydedilmez.</p>
+                </div>
                 <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Siparişi Onayla</button>
             </form>
         </div>
@@ -167,7 +176,10 @@
         <div class="modal-box" style="max-width: 500px;">
             <span class="close-modal close-modal-btn">&times;</span>
             <h2 style="color:var(--gold-accent); margin-bottom:10px;">Siparişiniz Alındı!</h2>
-            <p>Takip numaranız: <strong>#KVR-0000</strong></p>
+            <p style="margin-bottom:20px; color:#999;">Takip numaranız: <strong id="tracking-order-no">#KVR-0000</strong></p>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" id="track-progress"></div>
+            </div>
         </div>
     </div>
 

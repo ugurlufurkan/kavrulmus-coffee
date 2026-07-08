@@ -278,8 +278,8 @@
                 <ul class="footer-links">
                     <li><a href="kvkk.html">KVKK Aydınlatma Metni</a></li>
                     <li><a href="iade-sartlari.html">İade ve Değişim Şartları</a></li>
-                    <li><a href="#">Mesafeli Satış Sözleşmesi</a></li>
-                    <li><a href="#">Sıkça Sorulan Sorular</a></li>
+                    <li><a href="mesafeli-satis.html">Mesafeli Satış Sözleşmesi</a></li>
+                    <li><a href="sss.html">Sıkça Sorulan Sorular</a></li>
                 </ul>
             </div>
 
@@ -374,11 +374,9 @@
             <span class="close-modal close-modal-btn">&times;</span>
             <h2 style="color:var(--gold-accent); margin-bottom:20px; font-family:var(--font-heading);">Güvenli Ödeme</h2>
             <form id="checkout-form" class="modal-form active">
-                <input type="text" placeholder="Ad Soyad" required>
-<input type="tel" placeholder="Telefon" required>
-<input type="email" placeholder="E-Posta Adresiniz" required>
-<input type="password" placeholder="Şifre Belirleyin" required>
-                <textarea rows="3" placeholder="Teslimat Adresi" required></textarea>
+                <input type="text" id="checkout-name" placeholder="Ad Soyad" required>
+                <input type="tel" id="checkout-phone" placeholder="Telefon (05XX...)" required>
+                <textarea id="checkout-address" rows="3" placeholder="Teslimat Adresi" required></textarea>
                 <select id="odeme-yontemi-select" required>
                     <option value="">Ödeme Yöntemi Seçin</option>
                     <option value="card">Kredi/Banka Kartı</option>
@@ -403,7 +401,7 @@
         <div class="modal-box" style="max-width: 500px;">
             <span class="close-modal close-modal-btn">&times;</span>
             <h2 style="color:var(--gold-accent); margin-bottom:10px; font-family:var(--font-heading);">Siparişiniz Alındı!</h2>
-            <p style="margin-bottom:30px; color:#999;">Takip numaranız: <strong>#KVR-9823</strong></p>
+            <p style="margin-bottom:30px; color:#999;">Takip numaranız: <strong id="tracking-order-no">#KVR-0000</strong></p>
             
             <div class="tracking-stages">
                 <div class="track-stage" id="stage-1">📝 Sipariş Onaylandı</div>

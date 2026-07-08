@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hikayemiz | Kavrulmuş</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        .about-section { max-width: 900px; margin: 120px auto 60px; padding: 0 5%; }
+        .about-section h1 { font-family: var(--font-heading); color: var(--gold-accent); font-size: 2.5rem; margin-bottom: 20px; }
+        .about-section h2 { color: var(--gold-accent); margin: 35px 0 15px; font-size: 1.4rem; }
+        .about-section p { line-height: 1.9; color: #bbb; margin-bottom: 18px; }
+        .about-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; margin: 40px 0; }
+        .about-stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; text-align: center; }
+        .about-stat strong { display: block; font-size: 2rem; color: var(--gold-accent); margin-bottom: 8px; }
+        .about-stat span { color: #999; font-size: 0.9rem; }
+        body.light-mode .about-section p { color: #444; }
+        body.light-mode .about-stat { background: #fff; border-color: rgba(0,0,0,0.08); }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
+            Kavrulmuş<span>.</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Anasayfa</a></li>
+            <li><a href="urunler.html">Ürünlerimiz</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="iletisim.html">İletişim</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button id="theme-toggle" class="btn-text" title="Tema değiştir">☀️</button>
+            <a href="urunler.html" class="btn-premium">Alışverişe Başla</a>
+        </div>
+    </nav>
+
+    <section class="about-section">
+        <h1>Çekirdekten Fincana: Hikayemiz</h1>
+        <p>Kavrulmuş, Aksaray'ın kalbinde doğan bağımsız bir mikro kavurma markasıdır. 2018'den bu yana tek bir hedefimiz var: Türkiye'nin dört bir yanındaki kahve severlere, taptaze kavrulmuş çekirdekleri ve özenle seçilmiş harmanları ulaştırmak.</p>
+        <p>Atölyemizde her parti küçük miktarlarda kavrulur. Böylece çekirdeğin kendi karakterini — meyvemsi notalarını, gövdesini, asiditesini — kaybetmeden fincanınıza taşırız. Etiyopya'dan Kolombiya'ya, Brezilya'dan Guatemala'ya uzanan tedarik ağımızla hem yöresel hem klasik profiller sunuyoruz.</p>
+
+        <div class="about-stats">
+            <div class="about-stat"><strong>2018</strong><span>Kuruluş yılı</span></div>
+            <div class="about-stat"><strong>40+</strong><span>Kahve çeşidi</span></div>
+            <div class="about-stat"><strong>12K+</strong><span>Mutlu müşteri</span></div>
+            <div class="about-stat"><strong>%100</strong><span>El kavurma</span></div>
+        </div>
+
+        <h2>Neden Kavrulmuş?</h2>
+        <p>Çünkü kahve bizim için sadece bir içecek değil; bir ritüel. Siparişiniz alındığında çekirdekleriniz o gün veya bir önceki gün kavrulmuş olur. Stoklarımızı taze tutarız, uzun süre rafta bekletmeyiz. Online siparişleriniz Aksaray merkezli atölyemizden özenle paketlenir ve kargo ile adresinize ulaştırılır.</p>
+
+        <h2>Değerlerimiz</h2>
+        <p><strong>Şeffaflık:</strong> Her ürünün menşei, kavrum derecesi ve tat profili açıkça belirtilir.</p>
+        <p><strong>Sürdürülebilirlik:</strong> Mümkün olduğunca doğrudan ticaret ve adil fiyat prensibiyle çalışırız.</p>
+        <p><strong>Topluluk:</strong> Barista eğitimleri, tadım etkinlikleri ve blog içeriklerimizle kahve kültürünü yaygınlaştırırız.</p>
+
+        <h2>Bizi Ziyaret Edin</h2>
+        <p>Mağazamız Aksaray Kafeler Caddesi'nde her gün 09.00–23.00 arası açıktır. Kahvenizi burada içebilir, çekirdeklerinizi taze çektirebilir ve ekibimizle tanışabilirsiniz.</p>
+        <p style="margin-top: 30px;"><a href="urunler.html" class="btn-premium primary">Menüyü Keşfet →</a></p>
+    </section>
+
+    <footer class="premium-footer">
+        <div class="footer-grid">
+            <div class="footer-col footer-brand">
+                <h2>Kavrulmuş<span>.</span></h2>
+                <p>Çekirdekten fincana premium kahve deneyimi.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Keşfet</h3>
+                <ul class="footer-links">
+                    <li><a href="hakkimizda.html">Hikayemiz</a></li>
+                    <li><a href="urunler.html">Menü & Sipariş</a></li>
+                    <li><a href="blog.html">Kahve Rehberi</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h3>İletişim</h3>
+                <p>📍 Kafeler Caddesi No:45, Aksaray</p>
+                <p>📞 +90 (555) 123 45 67</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Kavrulmuş Kahve — Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>
