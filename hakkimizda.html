@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="css/pages.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/account-menu.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/modal.css">
     <style>
         .about-section { max-width: 900px; margin: 120px auto 60px; padding: 0 5%; }
         .about-section h1 { font-family: var(--font-heading); color: var(--gold-accent); font-size: 2.5rem; margin-bottom: 20px; }
@@ -31,12 +34,22 @@
         </div>
         <ul class="nav-links">
             <li><a href="index.html">Anasayfa</a></li>
+            <li><a href="hakkimizda.html" style="color: var(--gold-accent);">Hakkımızda</a></li>
             <li><a href="urunler.html">Ürünlerimiz</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="iletisim.html">İletişim</a></li>
         </ul>
         <div class="nav-actions">
             <button id="theme-toggle" class="btn-text" title="Tema değiştir">☀️</button>
+            <div class="account-menu" id="account-menu">
+                <button id="open-auth" class="btn-text">👤 Giriş Yap</button>
+                <div class="account-dropdown" id="account-dropdown">
+                    <a href="hesabim.html" id="account-profile-link">👤 Hesabım</a>
+                    <a href="favoriler.html" id="account-favorites-link">❤️ Favoriler</a>
+                    <a href="#" id="account-logout-link" class="logout-link">🚪 Çıkış Yap</a>
+                </div>
+            </div>
+            <a href="favoriler.html" class="nav-icon favorite-nav">❤️<span class="favorite-count" id="favorite-count">0</span></a>
             <a href="urunler.html" class="btn-premium">Alışverişe Başla</a>
         </div>
     </nav>
@@ -92,6 +105,32 @@
         </div>
     </footer>
 
+    <div id="toast-container" class="toast-container"></div>
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-box">
+            <span class="close-modal" id="close-auth">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login">Giriş Yap</button>
+                <button class="auth-tab" id="tab-register">Kayıt Ol</button>
+            </div>
+            <form id="login-form" class="modal-form active">
+                <input type="email" placeholder="E-Posta Adresiniz" required>
+                <input type="password" placeholder="Şifreniz" required>
+                <button type="submit" class="btn-premium primary" style="width:100%;margin-top:10px;">Giriş Yap</button>
+            </form>
+            <form id="register-form" class="modal-form">
+                <input type="text" placeholder="Ad Soyad" required>
+                <input type="tel" placeholder="Telefon" required>
+                <input type="email" placeholder="E-Posta" required>
+                <input type="password" placeholder="Şifre" required>
+                <button type="submit" class="btn-premium primary" style="width:100%;margin-top:10px;">Kayıt Ol</button>
+            </form>
+        </div>
+    </div>
+
     <script src="js/theme.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/favorites.js"></script>
 </body>
 </html>

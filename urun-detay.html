@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/account-menu.css">
+    <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
     <div class="cursor-ring" id="cursor-ring"></div>
@@ -27,13 +29,23 @@
 
         <ul class="nav-links">
             <li><a href="index.html">Anasayfa</a></li>
+            <li><a href="hakkimizda.html">Hakkımızda</a></li>
             <li><a href="urunler.html" style="color: var(--gold-accent);">Ürünlerimiz</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="iletisim.html">İletişim</a></li>
         </ul>
 
         <div class="nav-actions">
-            <button id="open-auth" class="btn-text">👤 Giriş Yap</button>
+            <button id="theme-toggle" class="btn-text" title="Tema değiştir">☀️</button>
+            <div class="account-menu" id="account-menu">
+                <button id="open-auth" class="btn-text">👤 Giriş Yap</button>
+                <div class="account-dropdown" id="account-dropdown">
+                    <a href="hesabim.html" id="account-profile-link">👤 Hesabım</a>
+                    <a href="favoriler.html" id="account-favorites-link">❤️ Favoriler</a>
+                    <a href="#" id="account-logout-link" class="logout-link">🚪 Çıkış Yap</a>
+                </div>
+            </div>
+            <a href="favoriler.html" class="nav-icon favorite-nav">❤️<span class="favorite-count" id="favorite-count">0</span></a>
             <button class="btn-premium cart-btn" id="cart-icon">
                 🛒 Sepet (<span id="cart-count">0</span>)
             </button>
@@ -273,6 +285,7 @@
     <div id="toast-container" class="toast-container"></div>
 
     <script src="js/utils.js"></script>
+    <script src="js/theme.js"></script>
     <script src="js/app.js"></script>
     <script src="js/toast.js"></script>
     <script src="js/cart.js"></script>

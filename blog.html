@@ -14,7 +14,10 @@
     <link rel="stylesheet" href="css/cart.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/modal.css">
-    <link rel="stylesheet" href="css/responsive.css"> </head>
+    <link rel="stylesheet" href="css/account-menu.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
 <body>
 
     <nav class="navbar" id="navbar">
@@ -24,12 +27,22 @@
         </div>
         <ul class="nav-links">
             <li><a href="index.html">Anasayfa</a></li>
+            <li><a href="hakkimizda.html">Hakkımızda</a></li>
             <li><a href="urunler.html">Ürünlerimiz</a></li>
             <li><a href="blog.html" style="color: var(--gold-accent);">Blog</a></li>
             <li><a href="iletisim.html">İletişim</a></li>
         </ul>
         <div class="nav-actions">
-            <button id="open-auth" class="btn-text">👤 Giriş Yap</button>
+            <button id="theme-toggle" class="btn-text" title="Tema değiştir">☀️</button>
+            <div class="account-menu" id="account-menu">
+                <button id="open-auth" class="btn-text">👤 Giriş Yap</button>
+                <div class="account-dropdown" id="account-dropdown">
+                    <a href="hesabim.html" id="account-profile-link">👤 Hesabım</a>
+                    <a href="favoriler.html" id="account-favorites-link">❤️ Favoriler</a>
+                    <a href="#" id="account-logout-link" class="logout-link">🚪 Çıkış Yap</a>
+                </div>
+            </div>
+            <a href="favoriler.html" class="nav-icon favorite-nav">❤️<span class="favorite-count" id="favorite-count">0</span></a>
             <button class="btn-premium cart-btn" id="cart-icon">
                 🛒 Sepet (<span id="cart-count">0</span>)
             </button>
@@ -42,16 +55,16 @@
     </header>
 
     <div class="filter-menu">
-        <button class="filter-btn active">Tümü</button>
-        <button class="filter-btn">Demleme Rehberi</button>
-        <button class="filter-btn">Çekirdek Hikayeleri</button>
-        <button class="filter-btn">Haberler</button>
+        <button class="filter-btn active" data-filter="all">Tümü</button>
+        <button class="filter-btn" data-filter="Demleme Rehberi">Demleme Rehberi</button>
+        <button class="filter-btn" data-filter="Çekirdek Hikayeleri">Çekirdek Hikayeleri</button>
+        <button class="filter-btn" data-filter="Haberler">Haberler</button>
     </div>
 
     <section class="blog-section">
         <div class="blog-grid">
             
-            <article class="blog-card">
+            <article class="blog-card" data-category="Demleme Rehberi">
                 <div class="blog-img-wrapper">
                     <span class="blog-category">Demleme Rehberi</span>
                     <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=600&q=80" alt="V60 Demleme" class="blog-img">
@@ -64,7 +77,7 @@
                 </div>
             </article>
 
-            <article class="blog-card">
+            <article class="blog-card" data-category="Çekirdek Hikayeleri">
                 <div class="blog-img-wrapper">
                     <span class="blog-category">Çekirdek Hikayeleri</span>
                     <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?auto=format&fit=crop&w=600&q=80" alt="Etiyopya Kahvesi" class="blog-img">
@@ -77,7 +90,7 @@
                 </div>
             </article>
 
-            <article class="blog-card">
+            <article class="blog-card" data-category="Haberler">
                 <div class="blog-img-wrapper">
                     <span class="blog-category">Haberler</span>
                     <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80" alt="Kavurma Atölyesi" class="blog-img">
@@ -190,10 +203,13 @@
         </div>
     </div>
 
+    <script src="js/theme.js"></script>
     <script src="js/app.js"></script>
     <script src="js/toast.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/modal.js"></script>
+    <script src="js/favorites.js"></script>
+    <script src="js/blog.js"></script>
     <script src="js/tracking.js"></script>
 </body>
 </html>
