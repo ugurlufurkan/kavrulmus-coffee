@@ -156,6 +156,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- DEMO KART FORMU: alan göster/gizle + basit formatlama ---
+    // NOT: Bu alanlar sadece görsel demo amaçlıdır. Kart bilgileri hiçbir zaman
+    // sunucuya gönderilmez, sadece "ödeme başarılı" animasyonu için kullanılır.
+    const odemeSelect = document.getElementById('odeme-yontemi-select');
+    const cardFields = document.getElementById('card-fields');
+    const cardNumberInput = document.getElementById('card-number');
+    const cardExpiryInput = document.getElementById('card-expiry');
+    const cardCvvInput = document.getElementById('card-cvv');
+
+    if (odemeSelect && cardFields) {
+        odemeSelect.addEventListener('change', () => {
+            const kartSecili = odemeSelect.value === 'card';
+            cardFields.classList.toggle('hidden', !kartSecili);
+            if (cardNumberInput) cardNumberInput.required = kartSecili;
+            if (cardExpiryInput) cardExpiryInput.required = kartSecili;
+            if (cardCvvInput) cardCvvInput.required = kartSecili;
+        });
+    }
+
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', () => {
+            let val = cardNumberInput.value.replace(/\D/g, '').slice(0, 16);
+            cardNumberInput.value = val.replace(/(.{4})/g, '$1 ').trim();
+        });
+    }
+
+    if (cardExpiryInput) {
+        cardExpiryInput.addEventListener('input', () => {
+            let val = cardExpiryInput.value.replace(/\D/g, '').slice(0, 4);
+            if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2);
+            cardExpiryInput.value = val;
+        });
+    }
+
+    if (cardCvvInput) {
+        cardCvvInput.addEventListener('input', () => {
+            cardCvvInput.value = cardCvvInput.value.replace(/\D/g, '').slice(0, 3);
+        });
+    }
+
     // --- GERÇEK SİPARİŞİ SUNUCUYA GÖNDERME (CHECKOUT) ---
     const checkoutForm = document.getElementById('checkout-form');
     if (checkoutForm) {
@@ -170,6 +210,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const userEmail = localStorage.getItem('kavrulmus_user_email') || 'Misafir';
 
             const toplamTutar = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+
+            // Kart seçiliyse sahte bir "ödeme işleniyor" animasyonu göster.
+            // Kart bilgileri (numara/son kullanma/cvv) hiçbir yere gönderilmiyor.
+            if (odeme === 'card') {
+                const originalText = submitBtn.innerText;
+                submitBtn.disabled = true;
+                submitBtn.innerText = '💳 Ödeme işleniyor...';
+                await new Promise(resolve => setTimeout(resolve, 1400));
+                submitBtn.innerText = '✅ Onaylandı!';
+                await new Promise(resolve => setTimeout(resolve, 400));
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
 
             const siparisVerisi = { 
                 musteriAd: isim, 
@@ -203,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     document.getElementById('tracking-modal').classList.add('active'); // Takip modalını aç
                     checkoutForm.reset();
+                    if (cardFields) cardFields.classList.add('hidden');
                     
                     window.showToast(`✅ ${data.mesaj}`);
                 } else {

@@ -280,11 +280,21 @@
                 <input type="text" placeholder="Ad Soyad" required>
                 <input type="tel" placeholder="Telefon (05XX...)" required>
                 <textarea rows="3" placeholder="Teslimat Adresi" required></textarea>
-                <select required>
+                <select id="odeme-yontemi-select" required>
                     <option value="">Ödeme Yöntemi Seçin</option>
                     <option value="card">Kredi/Banka Kartı</option>
                     <option value="door">Kapıda Ödeme</option>
                 </select>
+
+                <div id="card-fields" class="hidden">
+                    <input type="text" id="card-number" placeholder="Kart Numarası" inputmode="numeric" autocomplete="off">
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="card-expiry" placeholder="AA/YY" inputmode="numeric" autocomplete="off" style="flex:1;">
+                        <input type="text" id="card-cvv" placeholder="CVV" inputmode="numeric" autocomplete="off" style="flex:1;">
+                    </div>
+                    <p style="font-size:0.75rem; color:#888; margin-top:-10px; margin-bottom:15px;">🔒 Demo ödeme ekranı — kart bilgileriniz kaydedilmez veya gönderilmez.</p>
+                </div>
+
                 <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Siparişi Onayla</button>
             </form>
         </div>

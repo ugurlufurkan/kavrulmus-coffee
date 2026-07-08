@@ -6,6 +6,7 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,6 +23,61 @@ const pool = new Pool({
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
 });
+
+// --- MAIL GÖNDERİCİ (GMAIL) ---
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+async function siparisMailleriGonder(siparis) {
+    const urunListesiHtml = siparis.sepet.map(u =>
+        `<li>${u.quantity}x ${u.title} — ${u.price} TL</li>`
+    ).join('');
+
+    // 1. Müşteriye onay maili (gerçek bir e-posta girildiyse)
+    if (siparis.userEmail && siparis.userEmail !== 'Misafir') {
+        try {
+            await transporter.sendMail({
+                from: `"Kavrulmuş Kahve" <${process.env.EMAIL_USER}>`,
+                to: siparis.userEmail,
+                subject: `Siparişiniz Alındı — #${siparis.takipNo}`,
+                html: `
+                    <h2>Siparişiniz için teşekkürler, ${siparis.musteriAd}!</h2>
+                    <p>Takip numaranız: <strong>#${siparis.takipNo}</strong></p>
+                    <ul>${urunListesiHtml}</ul>
+                    <p><strong>Toplam: ${siparis.toplamTutar} TL</strong></p>
+                    <p>Teslimat Adresi: ${siparis.adres}</p>
+                    <p>Ödeme Yöntemi: ${siparis.odemeYontemi === 'card' ? 'Kredi/Banka Kartı' : 'Kapıda Ödeme'}</p>
+                `
+            });
+        } catch (err) {
+            console.error("❌ Müşteri maili gönderilemedi:", err.message);
+        }
+    }
+
+    // 2. Patrona (admin) bildirim maili
+    try {
+        await transporter.sendMail({
+            from: `"Kavrulmuş Sipariş Sistemi" <${process.env.EMAIL_USER}>`,
+            to: process.env.ADMIN_EMAIL,
+            subject: `🔔 Yeni Sipariş! — #${siparis.takipNo}`,
+            html: `
+                <h2>Yeni bir sipariş geldi!</h2>
+                <p><strong>Müşteri:</strong> ${siparis.musteriAd} (${siparis.telefon})</p>
+                <p><strong>Ödeme:</strong> ${siparis.odemeYontemi === 'card' ? 'Kredi/Banka Kartı' : 'Kapıda Ödeme'}</p>
+                <ul>${urunListesiHtml}</ul>
+                <p><strong>Toplam: ${siparis.toplamTutar} TL</strong></p>
+                <p><strong>Adres:</strong> ${siparis.adres}</p>
+            `
+        });
+    } catch (err) {
+        console.error("❌ Admin maili gönderilemedi:", err.message);
+    }
+}
 
 const initDB = async () => {
     try {
@@ -183,6 +239,13 @@ app.post('/api/siparis', async (req, res) => {
         }
 
         await client.query('COMMIT');
+
+        // Mailleri arka planda gönder — sipariş cevabını bekletmesin,
+        // mail gönderimi başarısız olsa bile sipariş zaten kaydedildi.
+        siparisMailleriGonder({
+            musteriAd, telefon, adres, odemeYontemi, sepet, toplamTutar, userEmail, takipNo
+        }).catch(err => console.error("❌ Mail gönderim hatası:", err.message));
+
         res.status(201).json({ mesaj: "Sipariş başarıyla alındı!", takipNo });
     } catch (err) {
         await client.query('ROLLBACK');
