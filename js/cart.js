@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 total += itemTotal;
                 count += item.quantity;
 
-                // Her ürün için sepet tasarımı (İç içe stil korumasıyla)
+                // Her ürün için sepet tasarımı
                 const cartItemEl = document.createElement('div');
                 cartItemEl.style.display = 'flex';
                 cartItemEl.style.gap = '15px';
@@ -77,12 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if(cartTotal) cartTotal.innerText = total.toFixed(2);
         if(cartCount) cartCount.innerText = count;
 
-        // Her değişiklikte veriyi tarayıcı hafızasına mühürle!
+        // Her değişiklikte veriyi tarayıcı hafızasına mühürle
         localStorage.setItem('kavrulmus_cart', JSON.stringify(cart));
     };
 
     // --- OLAY YETKİLENDİRME (EVENT DELEGATION) MİMARİSİ ---
-    // Sonradan gelen butonların tıklanmasını yakalar
     document.addEventListener('click', (e) => {
         
         // 1. Ürün Ekleme Butonuna Basıldıysa
@@ -93,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const price = parseFloat(btn.dataset.price);
             const image = btn.dataset.image;
 
-            // Bu ürün sepette zaten var mı?
             const existingItem = cart.find(item => item.id === id);
             if (existingItem) {
                 existingItem.quantity += 1;
@@ -101,9 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 cart.push({ id, title, price, image, quantity: 1 });
             }
 
-            renderCart(); // Ekrana çiz
+            renderCart();
             
-            // Kullanıcıya şık bir bildirim fırlat ve sepeti otomatik aç
             if (typeof window.showToast === 'function') window.showToast(`🛒 ${title} sepete eklendi!`);
             if (cartSidebar && cartOverlay) {
                 cartSidebar.classList.add('active');
@@ -124,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = cart.find(i => i.id === id);
             if(item) {
                 item.quantity -= 1;
-                // Sayı 0 olursa tamamen listeden sil
                 if(item.quantity === 0) cart = cart.filter(i => i.id !== id);
             }
             renderCart();
@@ -145,9 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Müşteri Giriş Yapmış Mı Kontrolü
-            const loggedInUser = localStorage.getItem('kavrulmus_user');
-            if (!loggedInUser) {
+            // Müşteri Giriş Yapmış Mı Kontrolü (YENİ JWT SİSTEMİ)
+            const token = localStorage.getItem('kavrulmus_token');
+            if (!token) {
                 window.showToast('⚠️ Lütfen önce giriş yapın veya kayıt olun!');
                 closeCart();
                 const authModal = document.getElementById('auth-modal');
@@ -164,9 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutForm = document.getElementById('checkout-form');
     if (checkoutForm) {
         checkoutForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Sayfanın yenilenmesini durdur
+            e.preventDefault(); 
             
-            // Formdaki bilgileri topla
             const inputs = checkoutForm.querySelectorAll('input');
             const isim = inputs[0].value;
             const tel = inputs[1].value;
@@ -174,10 +169,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const odeme = checkoutForm.querySelector('select').value;
             const userEmail = localStorage.getItem('kavrulmus_user_email') || 'Misafir';
 
-            // Toplam tutarı hesapla
             const toplamTutar = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
-            const siparisVerisi = { musteriAd: isim, telefon: tel, adres: adres, odemeYontemi: odeme, sepet: cart, toplamTutar: toplamTutar, userEmail: userEmail };
+            const siparisVerisi = { 
+                musteriAd: isim, 
+                telefon: tel, 
+                adres: adres, 
+                odemeYontemi: odeme, 
+                sepet: cart, 
+                toplamTutar: toplamTutar, 
+                userEmail: userEmail 
+            };
 
             try {
                 // Backend'e POST isteği at
