@@ -16,13 +16,13 @@ app.use(express.json());
 const dataDir = path.join(__dirname, 'data');
 const dbPath = path.join(__dirname, 'data', 'db.json');
 const usersDbPath = path.join(__dirname, 'data', 'users.json');
-const ordersDbPath = path.join(__dirname, 'data', 'orders.json'); // YENİ: Siparişler Veritabanı
+const ordersDbPath = path.join(__dirname, 'data', 'orders.json'); 
 
 // Klasör ve Veritabanı Kontrolü (Fail-Safe)
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 if (!fs.existsSync(usersDbPath)) fs.writeFileSync(usersDbPath, '[]', 'utf8');
 if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, '[]', 'utf8');
-if (!fs.existsSync(ordersDbPath)) fs.writeFileSync(ordersDbPath, '[]', 'utf8'); // Yoksa otomatik yarat
+if (!fs.existsSync(ordersDbPath)) fs.writeFileSync(ordersDbPath, '[]', 'utf8'); 
 
 // 1. API: Ürünleri Çek
 app.get('/api/urunler', (req, res) => {
@@ -93,7 +93,7 @@ app.post('/api/auth/login', (req, res) => {
     });
 });
 
-// 5. API: SİPARİŞİ VERİTABANINA KAYDET (YENİ EKLENDİ)
+// 5. API: SİPARİŞİ VERİTABANINA KAYDET
 app.post('/api/siparis', (req, res) => {
     const { musteriAd, telefon, adres, odemeYontemi, sepet, toplamTutar, userEmail } = req.body;
     
@@ -103,7 +103,6 @@ app.post('/api/siparis', (req, res) => {
         let siparisler = [];
         try { siparisler = JSON.parse(data); } catch (e) { siparisler = []; }
 
-        // Gerçekçi bir takip numarası üret (Örn: KVR-4928)
         const takipNo = 'KVR-' + Math.floor(1000 + Math.random() * 9000);
 
         const yeniSiparis = {
@@ -114,9 +113,9 @@ app.post('/api/siparis', (req, res) => {
             adres, 
             odemeYontemi, 
             userEmail,
-            urunler: sepet, // Sepetteki tüm ürünleri detayıyla kaydet
+            urunler: sepet, 
             toplamTutar,
-            durum: 'Hazırlanıyor' // Başlangıç durumu
+            durum: 'Hazırlanıyor' 
         };
 
         siparisler.push(yeniSiparis);
@@ -125,6 +124,18 @@ app.post('/api/siparis', (req, res) => {
             if (err) return res.status(500).json({ mesaj: "Sipariş kaydedilemedi" });
             res.status(201).json({ mesaj: "Sipariş başarıyla alındı!", takipNo });
         });
+    });
+});
+
+// 6. API: SİPARİŞLERİ GETİR (ADMIN PANELİ İÇİN)
+app.get('/api/siparisler', (req, res) => {
+    fs.readFile(ordersDbPath, 'utf8', (err, data) => {
+        if (err) return res.status(500).json({ mesaj: "Siparişler okunamadı" });
+        try { 
+            res.json(JSON.parse(data)); 
+        } catch (e) { 
+            res.json([]); 
+        }
     });
 });
 
