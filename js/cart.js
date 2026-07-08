@@ -91,17 +91,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const title = btn.dataset.title;
             const price = parseFloat(btn.dataset.price);
             const image = btn.dataset.image;
+            // Ürün detay sayfasındaki miktar seçiciden geliyorsa data-qty
+            // kullanılır; ürün kartlarında bu attribute yok, varsayılan 1'dir.
+            const eklenecekMiktar = Math.max(1, parseInt(btn.dataset.qty, 10) || 1);
 
             const existingItem = cart.find(item => item.id === id);
             if (existingItem) {
-                existingItem.quantity += 1;
+                existingItem.quantity += eklenecekMiktar;
             } else {
-                cart.push({ id, title, price, image, quantity: 1 });
+                cart.push({ id, title, price, image, quantity: eklenecekMiktar });
             }
 
             renderCart();
             
-            if (typeof window.showToast === 'function') window.showToast(`🛒 ${title} sepete eklendi!`);
+            if (typeof window.showToast === 'function') {
+                const miktarEtiketi = eklenecekMiktar > 1 ? `${eklenecekMiktar}x ` : '';
+                window.showToast(`🛒 ${miktarEtiketi}${title} sepete eklendi!`);
+            }
             if (cartSidebar && cartOverlay) {
                 cartSidebar.classList.add('active');
                 cartOverlay.classList.add('active');

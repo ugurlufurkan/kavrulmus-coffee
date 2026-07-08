@@ -85,13 +85,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const quickViewBtn = e.target.closest('.quick-view-overlay');
         if (!quickViewBtn) return;
 
+        // Dinamik (API'den gelen) kartlarda id doğrudan overlay üzerinde duruyor.
+        const directId = quickViewBtn.dataset.id;
+        if (directId) {
+            window.location.href = `urun-detay.html?id=${directId}`;
+            return;
+        }
+
+        // Statik kartlarda (örn. anasayfadaki öne çıkanlar) id yok; başlığa
+        // göre API'den ürünü bulup öyle yönlendiriyoruz.
         const card = quickViewBtn.closest('.product-card');
         const titleEl = card ? card.querySelector('.product-title') : null;
-        const title = titleEl ? titleEl.textContent.trim() : 'Bu ürün';
+        const title = titleEl ? titleEl.textContent.trim() : null;
 
-        if (typeof window.showToast === 'function') {
-            window.showToast(`👁️ ${title} — detay sayfası yakında eklenecek!`);
-        }
+        if (!title) return;
+
+        fetch('/api/urunler')
+            .then(response => response.json())
+            .then(urunler => {
+                const eslesen = urunler.find(u => u.baslik === title);
+                if (eslesen) {
+                    window.location.href = `urun-detay.html?id=${eslesen.id}`;
+                } else if (typeof window.showToast === 'function') {
+                    window.showToast(`👁️ ${title} — bu ürün için detay sayfası bulunamadı.`);
+                }
+            })
+            .catch(() => {
+                if (typeof window.showToast === 'function') {
+                    window.showToast(`👁️ ${title} — detay sayfasına şu an ulaşılamıyor.`);
+                }
+            });
     });
 
     /* -----------------------------------------------------

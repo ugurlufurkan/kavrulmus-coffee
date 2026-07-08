@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Kavrulmuş | Ürün Detayı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="css/product-detail.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+            Kavrulmuş<span>.</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Anasayfa</a></li>
+            <li><a href="urunler.html" style="color: var(--gold-accent);">Ürünlerimiz</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="iletisim.html">İletişim</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <button id="open-auth" class="btn-text">👤 Giriş Yap</button>
+            <button class="btn-premium cart-btn" id="cart-icon">
+                🛒 Sepet (<span id="cart-count">0</span>)
+            </button>
+        </div>
+    </nav>
+
+    <!-- Ekmek kırıntısı -->
+    <div class="breadcrumb">
+        <a href="index.html">Anasayfa</a>
+        <span class="sep">/</span>
+        <a href="urunler.html">Ürünlerimiz</a>
+        <span class="sep">/</span>
+        <span class="current" id="breadcrumb-current">Yükleniyor...</span>
+    </div>
+
+    <!-- Yükleniyor iskeleti -->
+    <section class="product-detail-section" id="loading-state">
+        <div class="product-detail-grid">
+            <div class="skeleton" style="aspect-ratio:1/1; border-radius:16px;"></div>
+            <div>
+                <div class="skeleton" style="height:36px; width:80%; margin-bottom:14px;"></div>
+                <div class="skeleton" style="height:18px; width:40%; margin-bottom:24px;"></div>
+                <div class="skeleton" style="height:44px; width:50%; margin-bottom:24px;"></div>
+                <div class="skeleton" style="height:80px; width:100%; margin-bottom:24px;"></div>
+                <div class="skeleton" style="height:50px; width:100%;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ürün bulunamadı durumu -->
+    <section class="detail-not-found" id="not-found-state" style="display:none;">
+        <h1>☕ Ürün Bulunamadı</h1>
+        <p>Aradığınız ürün kaldırılmış veya hiç var olmamış olabilir.</p>
+        <a href="urunler.html" class="btn-premium primary">Tüm Ürünlere Dön</a>
+    </section>
+
+    <!-- Asıl ürün detay içeriği (JS ile dolduruluyor) -->
+    <section class="product-detail-section" id="product-detail-content" style="display:none;">
+        <div class="product-detail-grid">
+            <div class="detail-image-wrapper">
+                <div class="detail-badges" id="detail-badges"></div>
+                <img id="detail-image" src="" alt="" class="product-img">
+            </div>
+
+            <div class="detail-info-col">
+                <h1 id="detail-title"></h1>
+                <p class="detail-type" id="detail-type"></p>
+
+                <div class="detail-rating-row" id="detail-rating-row">
+                    <span class="stars" id="detail-stars">★★★★★</span>
+                    <span class="rating-count" id="detail-rating-count">0 değerlendirme</span>
+                </div>
+
+                <div class="detail-price" id="detail-price"></div>
+
+                <p class="detail-short-desc" id="detail-short-desc"></p>
+
+                <p class="detail-stock-line" id="detail-stock-line"></p>
+
+                <div class="detail-action-row">
+                    <div class="qty-selector">
+                        <button type="button" id="qty-decrease" aria-label="Azalt">−</button>
+                        <span id="qty-value">1</span>
+                        <button type="button" id="qty-increase" aria-label="Artır">+</button>
+                    </div>
+                    <button class="btn-premium primary add-to-cart" id="detail-add-to-cart">🛒 Sepete Ekle</button>
+                    <button class="detail-wishlist-btn" id="detail-wishlist-btn" aria-label="Favorilere ekle">♡</button>
+                </div>
+
+                <div class="trust-badges">
+                    <div class="trust-badge"><span class="icon">🚚</span> 2-4 iş günü içinde kargoda</div>
+                    <div class="trust-badge"><span class="icon">🔒</span> Güvenli ödeme altyapısı</div>
+                    <div class="trust-badge"><span class="icon">☕</span> Siparişe özel taze kavrum</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sekmeler -->
+        <div class="detail-tabs-section">
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="aciklama">Ürün Açıklaması</button>
+                <button class="tab-btn" data-tab="degerlendirme">Değerlendirmeler (<span id="tab-review-count">0</span>)</button>
+            </div>
+
+            <div class="tab-panel active" id="tab-aciklama">
+                <p class="detail-long-desc" id="detail-long-desc"></p>
+                <div class="notes-row" id="detail-notes"></div>
+            </div>
+
+            <div class="tab-panel" id="tab-degerlendirme">
+                <div class="reviews-summary">
+                    <div class="reviews-avg">
+                        <div class="avg-number" id="reviews-avg-number">4.8</div>
+                        <span class="stars" id="reviews-avg-stars">★★★★★</span>
+                        <div class="avg-count" id="reviews-avg-count">0 değerlendirme</div>
+                    </div>
+                </div>
+                <div id="reviews-list"></div>
+            </div>
+        </div>
+
+        <!-- Benzer ürünler -->
+        <div class="related-section">
+            <h2>Benzer Ürünler</h2>
+            <div class="products-grid" id="related-products-grid"></div>
+        </div>
+    </section>
+
+    <footer class="premium-footer">
+        <div class="footer-grid">
+            <div class="footer-col footer-brand animate fade-up">
+                <h2>Kavrulmuş<span>.</span></h2>
+                <p>Aksaray Merkez'in 3. nesil kahve deneyimi. Çekirdekten fincana uzanan bu premium lezzet serüvenine ortak olun.</p>
+            </div>
+
+            <div class="footer-col animate fade-up delay-1">
+                <h3>Keşfet</h3>
+                <ul class="footer-links">
+                    <li><a href="hakkimizda.html">Hikayemiz</a></li>
+                    <li><a href="urunler.html">Menü & Sipariş</a></li>
+                    <li><a href="blog.html">Kahve Rehberi</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col animate fade-up delay-2">
+                <h3>Kurumsal</h3>
+                <ul class="footer-links">
+                    <li><a href="kvkk.html">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="iade-sartlari.html">İade ve Değişim Şartları</a></li>
+                    <li><a href="#">Mesafeli Satış Sözleşmesi</a></li>
+                    <li><a href="#">Sıkça Sorulan Sorular</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-contact animate fade-up delay-3">
+                <h3>İletişim</h3>
+                <p>📍 Kafeler Caddesi No:45, Aksaray</p>
+                <p>📞 +90 (555) 123 45 67</p>
+                <p>✉️ info@kavrulmus.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Kavrulmuş Kahve - Tüm hakları saklıdır.</p>
+            <div class="payment-methods">
+                <span>VISA</span>
+                <span>MASTERCARD</span>
+                <span>TROY</span>
+            </div>
+        </div>
+    </footer>
+
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header"><h2>Sepetiniz</h2><button class="close-cart" id="close-cart">✕</button></div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total-box"><span>Ara Toplam:</span><span><span id="cart-total">0.00</span> TL</span></div>
+            <button class="btn-premium primary checkout-btn" id="go-to-checkout">Siparişi Tamamla</button>
+        </div>
+    </aside>
+
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-box">
+            <span class="close-modal" id="close-auth">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login">Giriş Yap</button>
+                <button class="auth-tab" id="tab-register">Kayıt Ol</button>
+            </div>
+            <form id="login-form" class="modal-form active">
+                <input type="email" placeholder="E-Posta Adresiniz" required>
+                <input type="password" placeholder="Şifreniz" required>
+                <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Giriş Yap</button>
+            </form>
+            <form id="register-form" class="modal-form">
+                <input type="text" placeholder="Ad Soyad" required>
+                <input type="email" placeholder="E-Posta Adresiniz" required>
+                <input type="password" placeholder="Şifre Belirleyin" required>
+                <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Hesap Oluştur</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-box" style="max-width: 500px;">
+            <span class="close-modal close-modal-btn">&times;</span>
+            <h2 style="color:var(--gold-accent); margin-bottom:20px;">Güvenli Ödeme</h2>
+            <form id="checkout-form" class="modal-form active">
+                <input type="text" placeholder="Ad Soyad" required>
+                <input type="tel" placeholder="Telefon (05XX...)" required>
+                <textarea rows="3" placeholder="Teslimat Adresi" required></textarea>
+                <select required>
+                    <option value="">Ödeme Yöntemi Seçin</option>
+                    <option value="card">Kredi/Banka Kartı</option>
+                    <option value="door">Kapıda Ödeme</option>
+                </select>
+                <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Siparişi Onayla</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="tracking-modal">
+        <div class="modal-box" style="max-width: 500px;">
+            <span class="close-modal close-modal-btn">&times;</span>
+            <h2 style="color:var(--gold-accent); margin-bottom:10px;">Siparişiniz Alındı!</h2>
+            <p>Takip numaranız: <strong>#KVR-0000</strong></p>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/app.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/animation.js"></script>
+    <script src="js/product-detay.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/tracking.js"></script>
+    <script src="js/cookie.js"></script>
+</body>
+</html>

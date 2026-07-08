@@ -35,10 +35,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="card-badges">
                         ${stokBadge}
                     </div>
-                    <img src="${urun.resim}" alt="${urun.baslik}" class="product-img" style="${isTukendi ? 'filter: grayscale(100%);' : ''}">
+                    <button class="wishlist-btn">♡</button>
+                    <a href="urun-detay.html?id=${urun.id}">
+                        <img src="${urun.resim}" alt="${urun.baslik}" class="product-img" style="${isTukendi ? 'filter: grayscale(100%);' : ''}">
+                    </a>
+                    <div class="quick-view-overlay" data-id="${urun.id}">
+                        <button class="btn-premium secondary">🔍 Ürünü İncele</button>
+                    </div>
                 </div>
                 <div class="card-content">
-                    <h3 class="product-title">${urun.baslik}</h3>
+                    <a href="urun-detay.html?id=${urun.id}" class="product-title-link">
+                        <h3 class="product-title">${urun.baslik}</h3>
+                    </a>
                     <p class="product-type">${urun.tur}</p>
                     <div class="card-footer">
                         <span class="price">${urun.fiyat} TL</span>

@@ -1,0 +1,459 @@
+/* css/product-detail.css */
+
+/* -----------------------------------------------------
+   BREADCRUMB (EKMEK KIRINTISI)
+----------------------------------------------------- */
+.breadcrumb {
+    padding: 130px 5% 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.breadcrumb a {
+    color: #888;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+    color: var(--gold-accent);
+}
+
+.breadcrumb .sep {
+    margin: 0 8px;
+    color: #444;
+}
+
+.breadcrumb .current {
+    color: var(--text-light);
+}
+
+/* -----------------------------------------------------
+   ÜRÜN DETAY ÜST BLOK
+----------------------------------------------------- */
+.product-detail-section {
+    padding: 30px 5% 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+@media (max-width: 900px) {
+    .product-detail-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+/* Sol taraf: resim */
+.detail-image-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    aspect-ratio: 1 / 1;
+}
+
+/* Opacity/blur/"loaded" geçişi zaten css/animations.css içindeki
+   .product-img kuralından geliyor (aynı class burada da kullanılıyor);
+   burada sadece boyutlandırma ve hover büyütme efekti tanımlanıyor. */
+.detail-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.detail-image-wrapper:hover img.loaded {
+    transform: scale(1.04);
+}
+
+.detail-badges {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2;
+}
+
+/* Sağ taraf: bilgiler */
+.detail-info-col h1 {
+    font-size: 2.4rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    line-height: 1.15;
+}
+
+.detail-type {
+    color: var(--gold-accent);
+    font-style: italic;
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+}
+
+.detail-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.detail-rating-row .stars {
+    color: var(--gold-accent);
+    letter-spacing: 2px;
+}
+
+.detail-rating-row .rating-count {
+    color: #999;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.detail-price {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.detail-price .old-price {
+    font-size: 1.1rem;
+    color: #777;
+    text-decoration: line-through;
+    font-weight: 400;
+    margin-left: 12px;
+}
+
+.detail-short-desc {
+    color: #b8b8b8;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 480px;
+}
+
+.detail-stock-line {
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+.detail-stock-line.in-stock {
+    color: #6fcf97;
+}
+
+.detail-stock-line.out-stock {
+    color: #ff6b6b;
+}
+
+/* Miktar seçici + sepete ekle satırı */
+.detail-action-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.qty-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.qty-selector button {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    width: 42px;
+    height: 46px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.qty-selector button:hover {
+    background: rgba(200, 159, 93, 0.15);
+    color: var(--gold-accent);
+}
+
+.qty-selector span {
+    width: 40px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.detail-action-row .add-to-cart {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.95rem 1.8rem;
+    font-size: 1rem;
+}
+
+.detail-wishlist-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-light);
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.detail-wishlist-btn:hover,
+.detail-wishlist-btn.active {
+    color: #e63946;
+    border-color: #e63946;
+}
+
+/* Güven rozetleri (kargo / güvenli ödeme / taze kavrum) */
+.trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.trust-badge .icon {
+    font-size: 1.3rem;
+}
+
+/* -----------------------------------------------------
+   SEKMELER (AÇIKLAMA / DEĞERLENDİRMELER)
+----------------------------------------------------- */
+.detail-tabs-section {
+    margin-top: 60px;
+}
+
+.tabs-nav {
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #999;
+    padding: 14px 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.25s ease;
+    font-family: var(--font-body);
+}
+
+.tab-btn:hover {
+    color: var(--text-light);
+}
+
+.tab-btn.active {
+    color: var(--gold-accent);
+    border-bottom-color: var(--gold-accent);
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.detail-long-desc {
+    color: #b8b8b8;
+    line-height: 1.9;
+    max-width: 760px;
+    font-size: 1rem;
+}
+
+.detail-long-desc .notes-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.tasting-note {
+    background: rgba(200, 159, 93, 0.1);
+    border: 1px solid rgba(200, 159, 93, 0.25);
+    color: var(--gold-accent);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+}
+
+/* Yorumlar */
+.reviews-summary {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+}
+
+.reviews-avg {
+    text-align: center;
+}
+
+.reviews-avg .avg-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-light);
+    line-height: 1;
+    font-family: var(--font-heading);
+}
+
+.reviews-avg .stars {
+    color: var(--gold-accent);
+    display: block;
+    margin: 8px 0 4px;
+    letter-spacing: 2px;
+}
+
+.reviews-avg .avg-count {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.review-card {
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    max-width: 760px;
+}
+
+.review-card:last-child {
+    border-bottom: none;
+}
+
+.review-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gold-accent);
+    color: var(--bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.review-meta .review-name {
+    color: var(--text-light);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.review-meta .review-date {
+    color: #777;
+    font-size: 0.8rem;
+}
+
+.review-card .stars {
+    color: var(--gold-accent);
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.review-comment {
+    color: #b8b8b8;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.verified-badge {
+    display: inline-block;
+    background: rgba(111, 207, 151, 0.12);
+    color: #6fcf97;
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-weight: 600;
+}
+
+/* -----------------------------------------------------
+   BENZER ÜRÜNLER
+----------------------------------------------------- */
+.related-section {
+    margin-top: 70px;
+}
+
+.related-section h2 {
+    font-size: 1.8rem;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+/* -----------------------------------------------------
+   BULUNAMADI DURUMU
+----------------------------------------------------- */
+.detail-not-found {
+    padding: 180px 5% 120px;
+    text-align: center;
+}
+
+.detail-not-found h1 {
+    font-size: 2.2rem;
+    color: var(--gold-accent);
+    margin-bottom: 12px;
+}
+
+.detail-not-found p {
+    color: #999;
+    margin-bottom: 24px;
+}
+
+/* -----------------------------------------------------
+   YÜKLENİYOR İSKELETİ
+----------------------------------------------------- */
+.skeleton {
+    background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 37%, rgba(255,255,255,0.04) 63%);
+    background-size: 400% 100%;
+    animation: skeletonShimmer 1.4s ease infinite;
+    border-radius: 8px;
+}
+
+@keyframes skeletonShimmer {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}

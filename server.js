@@ -158,6 +158,25 @@ app.get('/api/urunler', async (req, res) => {
     }
 });
 
+// 1b. API: TEK BİR ÜRÜNÜ ID İLE ÇEK (ürün detay sayfası için)
+app.get('/api/urunler/:id', async (req, res) => {
+    const { id } = req.params;
+
+    if (!/^\d+$/.test(id)) {
+        return res.status(400).json({ mesaj: "Geçersiz ürün id'si" });
+    }
+
+    try {
+        const result = await pool.query('SELECT * FROM products WHERE id = $1', [id]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ mesaj: "Ürün bulunamadı" });
+        }
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ mesaj: "Ürün okuma hatası" });
+    }
+});
+
 // 2. API: YENİ ÜRÜN EKLE (KORUMALI)
 app.post('/api/urunler', verifyAdmin, async (req, res) => {
     const { baslik, tur, fiyat, resimUrl, stok } = req.body;
