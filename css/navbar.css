@@ -112,3 +112,37 @@
 .favorite-count.show {
     transform: scale(1);
 }
+/* ===========================
+   GİRİŞ YAPAN KULLANICI
+=========================== */
+
+#open-auth {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 18px;
+
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 999px;
+
+    background: rgba(255,255,255,.04);
+    color: var(--text-light);
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+#open-auth:hover {
+    background: rgba(255,255,255,.08);
+    border-color: var(--gold-accent);
+    color: var(--gold-accent);
+}
+
+#open-auth.logged-user {
+    background: rgba(212,175,55,.08);
+    border-color: rgba(212,175,55,.35);
+    color: var(--gold-accent);
+    font-weight: 600;
+}

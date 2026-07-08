@@ -331,11 +331,40 @@
                 <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Giriş Yap</button>
             </form>
             <form id="register-form" class="modal-form">
-                <input type="text" placeholder="Ad Soyad" required>
-                <input type="email" placeholder="E-Posta Adresiniz" required>
-                <input type="password" placeholder="Şifre Belirleyin" required>
-                <button type="submit" class="btn-premium primary" style="width:100%; margin-top:10px;">Hesap Oluştur</button>
-            </form>
+
+    <input
+        type="text"
+        placeholder="Ad Soyad"
+        required
+    >
+
+    <input
+        type="tel"
+        placeholder="Telefon"
+        required
+    >
+
+    <input
+        type="email"
+        placeholder="E-Posta Adresiniz"
+        required
+    >
+
+    <input
+        type="password"
+        placeholder="Şifre Belirleyin"
+        required
+    >
+
+    <button
+        type="submit"
+        class="btn-premium primary"
+        style="width:100%; margin-top:10px;"
+    >
+        Hesap Oluştur
+    </button>
+
+</form>
         </div>
     </div>
 
@@ -345,7 +374,9 @@
             <h2 style="color:var(--gold-accent); margin-bottom:20px; font-family:var(--font-heading);">Güvenli Ödeme</h2>
             <form id="checkout-form" class="modal-form active">
                 <input type="text" placeholder="Ad Soyad" required>
-                <input type="tel" placeholder="Telefon (05XX...)" required>
+<input type="tel" placeholder="Telefon" required>
+<input type="email" placeholder="E-Posta Adresiniz" required>
+<input type="password" placeholder="Şifre Belirleyin" required>
                 <textarea rows="3" placeholder="Teslimat Adresi" required></textarea>
                 <select id="odeme-yontemi-select" required>
                     <option value="">Ödeme Yöntemi Seçin</option>

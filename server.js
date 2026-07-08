@@ -113,6 +113,15 @@ const initDB = async () => {
                 durum VARCHAR(50) DEFAULT 'Hazırlanıyor'
             );
         `);
+
+        // MEVCUT users TABLOSU ESKİ ŞEMAYLA OLUŞTURULMUŞ OLABİLİR
+        // (CREATE TABLE IF NOT EXISTS, tablo zaten varsa sütun eklemez)
+        // Bu yüzden eksik sütunları burada garantiye alıyoruz:
+        await pool.query(`
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS ad_soyad VARCHAR(255);
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS telefon VARCHAR(30);
+        `);
+
         console.log("📦 SQL Veritabanı tabloları kontrol edildi/oluşturuldu.");
     } catch (err) {
         console.error("❌ Veritabanı tabloları oluşturulurken hata:", err);
@@ -195,6 +204,9 @@ app.post('/api/urunler', verifyAdmin, async (req, res) => {
 
 // 3. API: YENİ ÜYE KAYDI
 app.post('/api/auth/register', async (req, res) => {
+
+    console.log("BODY:", req.body);
+
     const { adSoyad, telefon, email, password } = req.body;
     try {
         const checkUser = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
@@ -258,6 +270,7 @@ app.post('/api/auth/login', async (req, res) => {
         );
 
         const user = result.rows[0];
+        console.log("USER:", user);
 
         if (!user) {
             return res.status(401).json({
