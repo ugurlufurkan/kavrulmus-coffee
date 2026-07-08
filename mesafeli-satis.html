@@ -4,21 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesafeli Satış Sözleşmesi | Kavrulmuş</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/account-menu.css">
+    <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <style>
-        body { background: var(--bg-dark, #111); color: #ccc; font-family: 'Poppins', sans-serif; line-height: 1.8; padding: 50px 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.03); padding: 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); }
-        h1, h2 { color: var(--gold-accent, #d4af37); margin-bottom: 20px; }
-        p, li { margin-bottom: 14px; font-size: 0.95rem; }
-        a { color: var(--gold-accent, #d4af37); text-decoration: none; font-weight: 600; }
-        body.light-mode { background: #F5F0EB; color: #333; }
-        body.light-mode .container { background: #fff; border-color: rgba(0,0,0,0.08); }
+        .legal-section { max-width: 800px; margin: 120px auto 60px; padding: 0 5%; }
+        .legal-section h1 { font-family: var(--font-heading); color: var(--gold-accent); margin-bottom: 20px; }
+        .legal-section h2 { color: var(--gold-accent); margin: 28px 0 12px; font-size: 1.2rem; }
+        .legal-section p, .legal-section li { line-height: 1.9; color: #bbb; margin-bottom: 16px; }
+        body.light-mode .legal-section p, body.light-mode .legal-section li { color: #444; }
     </style>
 </head>
 <body>
-    <div class="container">
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand"><a href="index.html" style="color:inherit;">Kavrulmuş<span>.</span></a></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Anasayfa</a></li>
+            <li><a href="hakkimizda.html">Hakkımızda</a></li>
+            <li><a href="urunler.html">Ürünlerimiz</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="iletisim.html">İletişim</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button id="theme-toggle" class="btn-text" title="Tema değiştir">☀️</button>
+            <div class="account-menu" id="account-menu">
+                <button id="open-auth" class="btn-text">👤 Giriş Yap</button>
+                <div class="account-dropdown" id="account-dropdown">
+                    <a href="hesabim.html" id="account-profile-link">👤 Hesabım</a>
+                    <a href="favoriler.html" id="account-favorites-link">❤️ Favoriler</a>
+                    <a href="#" id="account-logout-link" class="logout-link">🚪 Çıkış Yap</a>
+                </div>
+            </div>
+            <a href="favoriler.html" class="nav-icon favorite-nav">❤️<span class="favorite-count" id="favorite-count">0</span></a>
+            <button class="btn-premium cart-btn" id="cart-icon">🛒 Sepet (<span id="cart-count">0</span>)</button>
+        </div>
+    </nav>
+
+    <section class="legal-section">
         <h1>Mesafeli Satış Sözleşmesi</h1>
         <p><strong>Satıcı:</strong> Kavrulmuş Kahve — Aksaray / Türkiye<br>
         <strong>İletişim:</strong> info@kavrulmus.com | +90 (555) 123 45 67</p>
@@ -33,7 +63,7 @@
         <p>Siparişler, ödeme onayından sonra 1–3 iş günü içinde kargoya verilir. Teslimat süresi kargo firmasının bölgesel koşullarına bağlı olarak değişebilir. Teslimat adresi sipariş formunda belirtilen adrestir.</p>
 
         <h2>4. Cayma Hakkı</h2>
-        <p>Alıcı, teslim aldığı tarihten itibaren 14 gün içinde hiçbir gerekçe göstermeksizin cayma hakkını kullanabilir. Gıda niteliğindeki açılmış/kullanılmış ürünlerde yasal istisnalar geçerlidir. Detaylar için <a href="iade-sartlari.html">İade ve Değişim Şartları</a> sayfasına bakınız.</p>
+        <p>Alıcı, teslim aldığı tarihten itibaren 14 gün içinde hiçbir gerekçe göstermeksizin cayma hakkını kullanabilir. Gıda niteliğindeki açılmış/kullanılmış ürünlerde yasal istisnalar geçerlidir. Detaylar için <a href="iade-sartlari.html" style="color:var(--gold-accent)">İade ve Değişim Şartları</a> sayfasına bakınız.</p>
 
         <h2>5. Ödeme</h2>
         <p>Ödeme; kredi/banka kartı veya kapıda ödeme yöntemleriyle gerçekleştirilebilir. Demo ortamında kart bilgileri kaydedilmez.</p>
@@ -41,9 +71,40 @@
         <h2>6. Uyuşmazlık</h2>
         <p>Uyuşmazlıklarda Tüketici Hakem Heyetleri ve Tüketici Mahkemeleri yetkilidir.</p>
 
-        <br>
-        <a href="index.html">← Anasayfaya Dön</a>
+        <p style="margin-top:30px;"><a href="index.html" class="btn-premium secondary">← Anasayfaya Dön</a></p>
+    </section>
+
+    <footer class="premium-footer">
+        <div class="footer-bottom"><p>&copy; 2026 Kavrulmuş Kahve — Tüm hakları saklıdır.</p></div>
+    </footer>
+
+    <div id="toast-container" class="toast-container"></div>
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-box">
+            <span class="close-modal" id="close-auth">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login">Giriş Yap</button>
+                <button class="auth-tab" id="tab-register">Kayıt Ol</button>
+            </div>
+            <form id="login-form" class="modal-form active">
+                <input type="email" placeholder="E-Posta Adresiniz" required>
+                <input type="password" placeholder="Şifreniz" required>
+                <button type="submit" class="btn-premium primary" style="width:100%;margin-top:10px;">Giriş Yap</button>
+            </form>
+            <form id="register-form" class="modal-form">
+                <input type="text" placeholder="Ad Soyad" required>
+                <input type="tel" placeholder="Telefon" required>
+                <input type="email" placeholder="E-Posta" required>
+                <input type="password" placeholder="Şifre" required>
+                <button type="submit" class="btn-premium primary" style="width:100%;margin-top:10px;">Kayıt Ol</button>
+            </form>
+        </div>
     </div>
+
     <script src="js/theme.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/favorites.js"></script>
+    <script src="js/store-ui.js"></script>
 </body>
 </html>
