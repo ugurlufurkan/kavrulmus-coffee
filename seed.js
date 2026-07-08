@@ -1,6 +1,6 @@
 // seed.js
-// Bu dosyayı SADECE BİR KEZ çalıştır: node seed.js
-// Vitrine 10 örnek kahve ekler. Mevcut ürünleri SİLMEZ, üzerine ekler.
+// Çalıştır: npm run seed
+// Aynı isimde ürün varsa atlar (tekrar çalıştırılabilir).
 
 require('dotenv').config();
 const { Pool } = require('pg');
@@ -10,7 +10,7 @@ const pool = new Pool({
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+    port: parseInt(process.env.DB_PORT, 10) || 5432,
 });
 
 const kahveler = [
@@ -27,17 +27,30 @@ const kahveler = [
 ];
 
 async function seedEt() {
+    let eklenen = 0;
+    let atlanan = 0;
+
     try {
         for (const kahve of kahveler) {
+            const mevcut = await pool.query('SELECT id FROM products WHERE baslik = $1', [kahve.baslik]);
+            if (mevcut.rows.length) {
+                console.log(`⏭️  Zaten var: ${kahve.baslik}`);
+                atlanan++;
+                continue;
+            }
+
             await pool.query(
                 'INSERT INTO products (baslik, tur, fiyat, resim, stok) VALUES ($1, $2, $3, $4, $5)',
                 [kahve.baslik, kahve.tur, kahve.fiyat, kahve.resim, kahve.stok]
             );
             console.log(`✅ Eklendi: ${kahve.baslik}`);
+            eklenen++;
         }
-        console.log("🎉 Tüm ürünler başarıyla eklendi!");
+
+        console.log(`\n🎉 Seed tamamlandı — ${eklenen} yeni ürün, ${atlanan} atlandı.`);
     } catch (err) {
-        console.error("❌ Hata:", err.message);
+        console.error('❌ Hata:', err.message);
+        process.exitCode = 1;
     } finally {
         await pool.end();
     }
