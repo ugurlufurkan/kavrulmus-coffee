@@ -23,7 +23,7 @@ const kahveler = [
     { baslik: "Kenya AA", tur: "Yöresel Filtre", fiyat: 450, resim: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=500&q=80", stok: 50 },
     { baslik: "Kavrulmuş Filtre Kahve", tur: "Günlük Filtre", fiyat: 260, resim: "https://images.unsplash.com/photo-1442550528053-c431ecb55509?auto=format&fit=crop&w=500&q=80", stok: 50 },
     { baslik: "Mocha Java Blend", tur: "Karışım", fiyat: 340, resim: "https://images.unsplash.com/photo-1509785307050-d4066910ec1e?auto=format&fit=crop&w=500&q=80", stok: 50 },
-    { baslik: "Türk Kahvesi Özel Harman", tur: "Geleneksel", fiyat: 220, resim: "https://images.unsplash.com/photo-1524350876685-274059332603?auto=format&fit=crop&w=500&q=80", stok: 50 }
+    { baslik: "Türk Kahvesi Özel Harman", tur: "Geleneksel", fiyat: 220, resim: "https://images.unsplash.com/photo-1506778020041-0ea35027d019?auto=format&fit=crop&w=500&q=80", stok: 50 }
 ];
 
 async function seedEt() {
