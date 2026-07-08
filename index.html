@@ -6,7 +6,6 @@
     <title>Kavrulmuş | Anasayfa</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- Parçalanmış CSS Dosyaları -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/hero.css">
@@ -18,10 +17,8 @@
     <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
-    <!-- Altın Cursor -->
     <div class="cursor-ring" id="cursor-ring"></div>
 
-    <!-- Yeni Kahve Loader -->
     <div id="loader" class="loader-container">
         <div class="cup-loader">
             <div class="steam steam-1"></div>
@@ -32,7 +29,6 @@
         <p style="margin-top: 25px; font-weight: bold; color: var(--gold-accent);">Taptaze demleniyor...</p>
     </div>
 
-    <!-- PREMIUM NAVBAR -->
     <nav class="navbar" id="navbar">
         <div class="nav-brand">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
@@ -40,7 +36,7 @@
         </div>
         
         <ul class="nav-links">
-            <li><a href="index.html">Anasayfa</a></li>
+            <li><a href="index.html" style="color: var(--gold-accent);">Anasayfa</a></li>
             <li><a href="urunler.html">Ürünlerimiz</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="iletisim.html">İletişim</a></li>
@@ -54,7 +50,6 @@
         </div>
     </nav>
 
-    <!-- PREMIUM HERO -->
     <header class="hero">
         <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/images/hero/hero-poster.webp">
             <source src="assets/videos/hero.mp4" type="video/mp4">
@@ -64,7 +59,7 @@
 
         <div class="hero-content">
             <div class="hero-badge animate fade-down">
-                <span class="stars">⭐⭐⭐⭐⭐</span> 4.9 | 15.000+ Mutlu Misafir
+                15.000+ Mutlu Misafir
             </div>
             <h1 class="hero-title animate fade-up delay-1">Crafted for <span>Coffee</span> Lovers</h1>
             <p class="hero-subtitle animate fade-up delay-2">Premium kahve deneyimini her fincanda hissedin. Aksaray'ın 3. nesil kavurma atölyesinden kapınıza.</p>
@@ -76,7 +71,6 @@
         </div>
     </header>
 
-    <!-- PREMIUM ÜRÜN KARTLARI -->
     <section id="menu" class="products-section">
         <div class="section-header animate fade-up">
             <h2>Öne Çıkan Lezzetler</h2>
@@ -85,7 +79,6 @@
         
         <div class="products-grid">
             
-            <!-- Kart 1 -->
             <div class="product-card animate fade-up">
                 <div class="card-image-wrapper">
                     <div class="card-badges">
@@ -99,7 +92,6 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <div class="stars">⭐⭐⭐⭐⭐ <span style="color:#666; font-size:0.8rem;">(128)</span></div>
                     <h3 class="product-title">Premium Espresso Blend</h3>
                     <p class="product-type">%100 Arabica</p>
                     <div class="card-footer">
@@ -109,7 +101,6 @@
                 </div>
             </div>
 
-            <!-- Kart 2 -->
             <div class="product-card animate fade-up delay-2">
                 <div class="card-image-wrapper">
                     <div class="card-badges">
@@ -122,7 +113,6 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <div class="stars">⭐⭐⭐⭐½ <span style="color:#666; font-size:0.8rem;">(85)</span></div>
                     <h3 class="product-title">Etiyopya Yirgacheffe</h3>
                     <p class="product-type">Yöresel Filtre</p>
                     <div class="card-footer">
@@ -132,7 +122,6 @@
                 </div>
             </div>
 
-            <!-- Kart 3 -->
             <div class="product-card animate fade-up delay-3">
                 <div class="card-image-wrapper">
                     <div class="card-badges">
@@ -145,7 +134,6 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <div class="stars">⭐⭐⭐⭐⭐ <span style="color:#666; font-size:0.8rem;">(210)</span></div>
                     <h3 class="product-title">Kolombiya Supremo</h3>
                     <p class="product-type">Toptan Çekirdek</p>
                     <div class="card-footer">
@@ -158,7 +146,6 @@
         </div>
     </section>
 
-    <!-- KAHVE QUİZİ -->
     <section id="quiz" class="quiz-section page-bg" style="padding: 100px 50px; text-align:center;">
         <div class="quiz-container animate zoom-in">
             <h2>Sana En Uygun Kahveyi Bulalım ☕</h2>
@@ -177,7 +164,6 @@
         </div>
     </section>
 
-    <!-- DÜNYA KAHVE HARİTASI -->
     <section class="map-section" style="padding: 80px 50px; text-align:center; background:#111;">
         <h2 class="section-title animate fade-up">Çekirdeklerimizin Yolculuğu 🗺️</h2>
         <div class="world-map-container animate zoom-out" style="position: relative; max-width: 1000px; margin: 0 auto;">
@@ -198,7 +184,6 @@
         </div>
     </section>
 
-    <!-- PREMIUM FOOTER -->
     <footer class="premium-footer">
         <div class="footer-grid">
             <div class="footer-col footer-brand animate fade-up">
@@ -224,8 +209,8 @@
             <div class="footer-col animate fade-up delay-2">
                 <h3>Kurumsal</h3>
                 <ul class="footer-links">
-                    <li><a href="#">KVKK Aydınlatma Metni</a></li>
-                    <li><a href="#">İade ve Değişim Şartları</a></li>
+                    <li><a href="kvkk.html">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="iade-sartlari.html">İade ve Değişim Şartları</a></li>
                     <li><a href="#">Mesafeli Satış Sözleşmesi</a></li>
                     <li><a href="#">Sıkça Sorulan Sorular</a></li>
                 </ul>
@@ -241,7 +226,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2024 Kavrulmuş Kahve - Tüm hakları saklıdır.</p>
+            <p>&copy; 2026 Kavrulmuş Kahve - Tüm hakları saklıdır.</p>
             <div class="payment-methods">
                 <span>VISA</span>
                 <span>MASTERCARD</span>
@@ -250,7 +235,6 @@
         </div>
     </footer>
 
-    <!-- SEPET MODALI (SIDEBAR) -->
     <div class="cart-overlay" id="cart-overlay"></div>
     <aside class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
@@ -267,7 +251,6 @@
         </div>
     </aside>
 
-    <!-- 1. GİRİŞ YAP / KAYIT OL MODALI -->
     <div class="modal-overlay" id="auth-modal">
         <div class="modal-box">
             <span class="close-modal" id="close-auth">&times;</span>
@@ -289,7 +272,6 @@
         </div>
     </div>
 
-    <!-- 2. GÜVENLİ ÖDEME (CHECKOUT) MODALI -->
     <div class="modal-overlay" id="checkout-modal">
         <div class="modal-box" style="max-width: 500px;">
             <span class="close-modal close-modal-btn">&times;</span>
@@ -308,7 +290,6 @@
         </div>
     </div>
 
-    <!-- 3. SİPARİŞ TAKİP MODALI -->
     <div class="modal-overlay" id="tracking-modal">
         <div class="modal-box" style="max-width: 500px;">
             <span class="close-modal close-modal-btn">&times;</span>
@@ -328,11 +309,9 @@
         </div>
     </div>
 
-    <!-- Toast Bildirimleri İçin Kutu -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- JS Modülleri -->
-  <script src="js/app.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/toast.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/modal.js"></script>
@@ -340,5 +319,7 @@
     <script src="js/chatbot.js"></script>
     <script src="js/tracking.js"></script>
     <script src="js/animation.js"></script>
-    <script src="js/quiz.js"></script> </body>
+    <script src="js/quiz.js"></script> 
+    <script src="js/cookie.js"></script>
+</body>
 </html>
