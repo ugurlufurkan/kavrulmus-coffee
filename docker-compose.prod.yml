@@ -1,7 +1,5 @@
-# Bu dosya geriye dönük uyumluluk içindir.
-# Geliştirme: docker-compose.dev.yml  →  npm run dev
-# Production: docker-compose.prod.yml  →  npm run prod
-
+# Production: PostgreSQL + uygulama container (build alınır)
+# Kullanım: npm run prod
 services:
   veritabani:
     image: postgres:17

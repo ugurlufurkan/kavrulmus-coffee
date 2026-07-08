@@ -1,5 +1,6 @@
 -- Kavrulmuş Kahve — PostgreSQL şeması
--- server.js initDB() ile uyumlu
+-- Drizzle ORM kaynağı: db/schema.js
+-- Migration: drizzle/0000_initial.sql
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,

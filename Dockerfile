@@ -7,6 +7,8 @@ RUN npm ci --omit=dev
 
 COPY . .
 
+# Drizzle migration dosyaları container içinde mevcut olmalı
+
 ENV NODE_ENV=production
 EXPOSE 3000
 

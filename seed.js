@@ -3,15 +3,9 @@
 // Aynı isimde ürün varsa atlar (tekrar çalıştırılabilir).
 
 require('dotenv').config();
-const { Pool } = require('pg');
-
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT, 10) || 5432,
-});
+const { eq } = require('drizzle-orm');
+const { db, pool } = require('./db');
+const { products } = require('./db/schema');
 
 const kahveler = [
     { baslik: "Premium Espresso Blend", tur: "%100 Arabica", fiyat: 335, resim: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=500&q=80", stok: 50 },
@@ -32,17 +26,24 @@ async function seedEt() {
 
     try {
         for (const kahve of kahveler) {
-            const mevcut = await pool.query('SELECT id FROM products WHERE baslik = $1', [kahve.baslik]);
-            if (mevcut.rows.length) {
+            const [mevcut] = await db
+                .select({ id: products.id })
+                .from(products)
+                .where(eq(products.baslik, kahve.baslik));
+
+            if (mevcut) {
                 console.log(`⏭️  Zaten var: ${kahve.baslik}`);
                 atlanan++;
                 continue;
             }
 
-            await pool.query(
-                'INSERT INTO products (baslik, tur, fiyat, resim, stok) VALUES ($1, $2, $3, $4, $5)',
-                [kahve.baslik, kahve.tur, kahve.fiyat, kahve.resim, kahve.stok]
-            );
+            await db.insert(products).values({
+                baslik: kahve.baslik,
+                tur: kahve.tur,
+                fiyat: String(kahve.fiyat),
+                resim: kahve.resim,
+                stok: kahve.stok,
+            });
             console.log(`✅ Eklendi: ${kahve.baslik}`);
             eklenen++;
         }

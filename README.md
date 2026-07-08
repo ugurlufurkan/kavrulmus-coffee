@@ -33,27 +33,31 @@ npm install
 
 # 2. Ortam değişkenleri — DİKKAT: mevcut .env varsa ÜZERİNE YAZMAYIN
 #    Sadece ilk kurulumda: copy .env.example .env
-#    DB_PASSWORD docker volume ile aynı kalmalı (değiştirmek için: docker compose down -v)
+#    DB_PASSWORD docker volume ile aynı kalmalı (değiştirmek için: npm run dev:down -v)
 
-# 3. Veritabanı
-docker compose up -d veritabani
+# 3. Veritabanı + sunucu — tek komut
+npm run dev
+```
 
-# 4. Örnek ürünler (ilk kurulumda)
+Bu komut `docker-compose.dev.yml` ile PostgreSQL'i (host'a **5432 portu açık** şekilde) başlatır ve ardından `node server.js`'i çalıştırır. Tablolar Drizzle migration'ları ile otomatik oluşur.
+
+> ⚠️ Sakın `docker compose up -d veritabani` (dosya belirtmeden, varsayılan `docker-compose.yml` ile) çalıştırmayın — o dosyada Postgres portu host'a açılmaz, sadece Docker içinden erişilebilir. Host'ta çalışan `npm start`/`node server.js` o zaman veritabanına hiç bağlanamaz.
+
+```powershell
+# 4. Örnek ürünler (ilk kurulumda, ayrı bir terminalde)
 npm run seed
-
-# 5. Sunucu — .env değiştirdiyseniz önce Ctrl+C ile durdurup yeniden başlatın
-npm start
 ```
 
 Tarayıcı: **http://localhost:3000** (HTML dosyasına çift tıklamayın)
 
 ### Ürünler görünmüyorsa
 
-1. Docker açık mı? `docker compose up -d veritabani`
+1. Docker açık mı? `npm run dev` çalıştırdınız mı (`docker compose up -d veritabani` **değil** — port açmaz)?
 2. `.env` içindeki `DB_PASSWORD`, Postgres volume ile uyumlu mu?
 3. Eski node süreci kalmış olabilir — terminalde `Ctrl+C`, gerekirse Görev Yöneticisi'nden `node.exe` kapatın
 4. `npm run seed` ile ürünleri yükleyin
 5. **http://localhost:3000/urunler.html** adresinden açın
+6. Tarayıcıda F12 → Network sekmesinden `/api/urunler` isteğinin durum kodunu ve dönen veriyi kontrol edin
 
 ## Docker ile Tam Stack
 
@@ -79,11 +83,12 @@ Sunucu başlarken terminalde `📧 Gmail SMTP bağlantısı hazır.` görürseni
 
 ## Veritabanı
 
-Tablolar sunucu başlarken otomatik oluşur (`server.js`). SQL dosyası: `schema.sql`
+Tablolar sunucu başlarken **Drizzle migration'ları** ile otomatik oluşur (`db/migrate.js` → `drizzle/` klasöründeki SQL dosyaları). `schema.sql` referans/yedek amaçlıdır, sunucu onu doğrudan çalıştırmaz. Şema tanımı: `db/schema.js`.
 
 ```powershell
-npm run seed          # Örnek ürünler
-node server.js        # API + statik site
+npm run db:migrate     # Migration'ları manuel çalıştır (server.js zaten başlarken çalıştırıyor)
+npm run seed            # Örnek ürünler
+node server.js          # API + statik site
 ```
 
 ## Admin Paneli
@@ -107,19 +112,27 @@ node server.js        # API + statik site
 
 ```
 ornek-site/
-├── server.js          # Express API + statik sunucu
-├── seed.js            # Örnek ürün verisi
-├── schema.sql         # PostgreSQL şeması
-├── docker-compose.yml # Postgres + uygulama
+├── server.js                  # Express API + statik sunucu
+├── seed.js                    # Örnek ürün verisi
+├── schema.sql                 # PostgreSQL şeması (referans/yedek)
+├── db/
+│   ├── index.js                # Drizzle + pg connection pool
+│   ├── schema.js                # Drizzle tablo tanımları
+│   └── migrate.js               # Migration çalıştırıcı (server.js başlarken çağırır)
+├── drizzle/                    # drizzle-kit tarafından üretilen migration SQL'leri
+├── docker-compose.yml          # Tam stack (Postgres + uygulama), Docker deploy için
+├── docker-compose.dev.yml      # Sadece Postgres, port host'a açık — `npm run dev` bunu kullanır
+├── docker-compose.prod.yml     # Production Docker stack
 ├── Dockerfile
-├── render.yaml        # Render deploy blueprint
-├── index.html         # Anasayfa
-├── admin.html         # Patron paneli
-├── siparis-takip.html # Sipariş sorgulama
-├── 404.html           # Özel hata sayfası
-├── js/                # Frontend scriptleri
-├── css/               # Stiller
-└── partials/          # Paylaşılan UI parçaları
+├── .dockerignore               # Docker build'ine .env/.git/node_modules dahil edilmesin diye
+├── render.yaml                 # Render deploy blueprint
+├── index.html                  # Anasayfa
+├── admin.html                  # Patron paneli
+├── siparis-takip.html          # Sipariş sorgulama
+├── 404.html                    # Özel hata sayfası
+├── js/                          # Frontend scriptleri
+├── css/                         # Stiller
+└── partials/                    # Paylaşılan UI parçaları
 ```
 
 ## Sayfalar

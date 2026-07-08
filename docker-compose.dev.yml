@@ -1,0 +1,23 @@
+# Geliştirme ortamı için sadece PostgreSQL
+# Uygulama: npm run dev (konsolda node server.js çalışır, Ctrl+C ile kapanır)
+services:
+  veritabani:
+    image: postgres:17
+    container_name: kavrulmus_postgres_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-patron}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+      POSTGRES_DB: ${DB_NAME:-kavrulmus_db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-patron} -d ${DB_NAME:-kavrulmus_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata_dev:
