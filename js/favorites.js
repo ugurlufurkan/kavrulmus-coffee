@@ -1,5 +1,3 @@
-// js/favorites.js
-
 const FAVORITES_KEY = "kavrulmus_favorites";
 
 function getFavorites() {
@@ -12,32 +10,6 @@ function saveFavorites(favorites) {
 
 function isFavorite(id) {
     return getFavorites().includes(Number(id));
-}
-
-function toggleFavorite(id, button) {
-    let favorites = getFavorites();
-    id = Number(id);
-
-    if (favorites.includes(id)) {
-        favorites = favorites.filter(f => f !== id);
-
-        if (window.showToast) {
-            window.showToast("💔 Favorilerden kaldırıldı.");
-        }
-
-    } else {
-        favorites.push(id);
-
-        if (window.showToast) {
-            window.showToast("❤️ Favorilere eklendi.");
-        }
-    }
-
-    saveFavorites(favorites);
-
-    updateFavoriteButton(button, id);
-
-    updateFavoriteCounter();
 }
 
 function updateFavoriteButton(button, id) {
@@ -60,23 +32,45 @@ function updateFavoriteCounter() {
     badge.textContent = getFavorites().length;
 }
 
+function toggleFavorite(id, button) {
+    let favorites = getFavorites();
+    id = Number(id);
+
+    if (favorites.includes(id)) {
+        favorites = favorites.filter(f => f !== id);
+
+        if (window.showToast) {
+            window.showToast("💔 Favorilerden kaldırıldı.");
+        }
+    } else {
+        favorites.push(id);
+
+        if (window.showToast) {
+            window.showToast("❤️ Favorilere eklendi.");
+        }
+    }
+
+    saveFavorites(favorites);
+    updateFavoriteButton(button, id);
+    updateFavoriteCounter();
+}
+
+// API ile sonradan eklenen butonlar için event delegation
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".wishlist-btn");
+
+    if (!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    toggleFavorite(btn.dataset.id, btn);
+});
+
 document.addEventListener("DOMContentLoaded", () => {
-
-    document.querySelectorAll(".wishlist-btn").forEach(btn => {
-
-        const id = btn.dataset.id;
-
-        updateFavoriteButton(btn, id);
-
-        btn.addEventListener("click", e => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            toggleFavorite(id, btn);
-        });
-
-    });
-
     updateFavoriteCounter();
 
+    document.querySelectorAll(".wishlist-btn").forEach(btn => {
+        updateFavoriteButton(btn, btn.dataset.id);
+    });
 });
