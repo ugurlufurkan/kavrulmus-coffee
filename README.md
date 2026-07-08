@@ -2,14 +2,23 @@
 
 Aksaray merkezli kahve markası için full-stack demo e-ticaret projesi. Express + PostgreSQL backend, vanilla HTML/CSS/JS frontend.
 
+**Repo:** [github.com/ugurlufurkan/ornek-site](https://github.com/ugurlufurkan/ornek-site)
+
 ## Özellikler
 
 - Ürün listesi, arama, filtre, sıralama
 - Sepet, checkout, sipariş takibi (`KVR-XXXX`)
-- Kullanıcı kayıt/giriş, hesabım, favoriler, şifre sıfırlama
+- Kullanıcı kayıt/giriş, hesabım, favoriler, şifre sıfırlama (e-posta ile)
 - Ürün yorumları, admin paneli (ürün CRUD, sipariş durumu, iletişim mesajları)
 - Blog, iletişim formu, KVKK / yasal sayfalar
 - Dark/light tema, rate limit, güvenlik başlıkları
+- Anasayfa chatbot (SSS / basit yönlendirme)
+
+## Demo sınırlamaları
+
+- **Ödeme:** Kart formu arayüzdür; gerçek ödeme altyapısı (iyzico, Stripe vb.) bağlı değildir. Siparişler demo olarak kaydedilir.
+- **E-posta:** Gmail SMTP + [uygulama şifresi](https://myaccount.google.com/apppasswords) olmadan sipariş / şifre sıfırlama mailleri gitmez (site yine çalışır).
+- **Admin:** Oturum `sessionStorage` ile tutulur — sekmeyi kapatınca tekrar giriş gerekir (JWT süresi 1 saat).
 
 ## Gereksinimler
 
@@ -49,7 +58,7 @@ Tarayıcı: **http://localhost:3000** (HTML dosyasına çift tıklamayın)
 ## Docker ile Tam Stack
 
 ```powershell
-copy .env.example .env
+# İlk kurulumda: copy .env.example .env  (mevcut .env varsa ÜZERİNE YAZMAYIN)
 docker compose up -d --build
 npm run seed
 ```
@@ -81,6 +90,8 @@ node server.js        # API + statik site
 
 - URL: `/admin.html`
 - Şifre: `.env` içindeki `ADMIN_PASSWORD`
+- Oturum sekme bazlıdır (`sessionStorage`); sekme kapanınca veya **Çıkış Yap** ile oturum sona erer
+- Token sunucuda `/api/admin/verify` ile doğrulanır
 
 ## Yayınlama (Render)
 
@@ -104,21 +115,50 @@ ornek-site/
 ├── render.yaml        # Render deploy blueprint
 ├── index.html         # Anasayfa
 ├── admin.html         # Patron paneli
+├── siparis-takip.html # Sipariş sorgulama
+├── 404.html           # Özel hata sayfası
 ├── js/                # Frontend scriptleri
 ├── css/               # Stiller
 └── partials/          # Paylaşılan UI parçaları
 ```
 
+## Sayfalar
+
+| Sayfa | Açıklama |
+|-------|----------|
+| `index.html` | Anasayfa, öne çıkan ürünler |
+| `urunler.html` | Ürün listesi, arama/filtre |
+| `urun-detay.html` | Ürün detayı, yorumlar |
+| `hesabim.html` | Profil, siparişler, şifre |
+| `favoriler.html` | Favori ürünler |
+| `siparis-takip.html` | `KVR-XXXX` ile takip |
+| `blog.html` / `blog-yazi.html` | Blog |
+| `iletisim.html` | İletişim formu |
+| `admin.html` | Yönetim paneli |
+
 ## API Özet
 
 | Endpoint | Açıklama |
 |----------|----------|
-| `GET /api/health` | Sağlık kontrolü |
+| `GET /api/health` | Sağlık kontrolü (DB dahil) |
 | `GET /api/urunler` | Ürün listesi |
+| `GET /api/urunler/:id` | Tek ürün |
+| `GET/POST /api/urunler/:id/yorumlar` | Yorumlar (POST: giriş gerekli) |
 | `POST /api/siparis` | Sipariş oluştur |
 | `GET /api/siparisler/takip/:id` | Sipariş takip (KVR-1234) |
 | `POST /api/iletisim` | İletişim formu |
-| `POST /api/auth/*` | Kayıt, giriş, profil |
+| `POST /api/auth/register` | Kayıt |
+| `POST /api/auth/login` | Giriş |
+| `POST /api/auth/forgot-password` | Şifre sıfırlama maili |
+| `POST /api/auth/reset-password` | Yeni şifre belirle |
+| `GET /api/auth/me` | Oturum bilgisi |
+| `GET/POST /api/favoriler` | Favoriler |
+| `POST /api/admin/login` | Admin giriş |
+| `GET /api/admin/verify` | Admin oturum doğrulama |
+| `GET/PUT/DELETE /api/urunler/:id` | Admin ürün yönetimi |
+| `GET /api/siparisler` | Admin sipariş listesi |
+| `PUT /api/siparisler/:id/durum` | Sipariş durumu güncelle |
+| `GET /api/iletisim` | Admin iletişim mesajları |
 
 ## Lisans
 

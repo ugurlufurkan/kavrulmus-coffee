@@ -2,7 +2,7 @@
   "name": "ornek-site",
   "version": "1.0.0",
   "description": "Kavrulmuş premium kahve e-ticaret sitesi — Express, PostgreSQL, vanilla frontend",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
