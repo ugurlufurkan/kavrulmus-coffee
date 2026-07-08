@@ -1,0 +1,203 @@
+.account-page {
+    margin-top: 100px;
+    padding: 40px 5% 80px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.account-header {
+    margin-bottom: 40px;
+}
+
+.account-header h1 {
+    font-size: 2.2rem;
+    color: var(--gold-accent);
+    margin-bottom: 8px;
+}
+
+.account-header p {
+    color: #999;
+}
+
+.account-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.account-tab {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-light);
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.account-tab:hover,
+.account-tab.active {
+    background: var(--gold-accent);
+    color: var(--bg-dark);
+    border-color: var(--gold-accent);
+}
+
+.account-panel {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.account-panel.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.account-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(200, 159, 93, 0.2);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 520px;
+}
+
+.account-card h3 {
+    color: var(--gold-accent);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.account-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.account-form label {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: -8px;
+}
+
+.account-form input {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+}
+
+.account-form input:focus {
+    outline: none;
+    border-color: var(--gold-accent);
+}
+
+.orders-empty {
+    text-align: center;
+    padding: 50px 20px;
+    color: #888;
+}
+
+.orders-empty span {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.order-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+}
+
+.order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.order-id {
+    font-weight: 600;
+    color: var(--gold-accent);
+}
+
+.order-date {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.order-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(200, 159, 93, 0.15);
+    color: var(--gold-accent);
+}
+
+.order-items {
+    list-style: none;
+    margin: 12px 0;
+    padding: 0;
+}
+
+.order-items li {
+    font-size: 0.9rem;
+    color: #bbb;
+    padding: 4px 0;
+}
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.order-total {
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.order-address {
+    font-size: 0.85rem;
+    color: #777;
+    width: 100%;
+}
+
+.login-required {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.login-required h2 {
+    color: var(--gold-accent);
+    margin-bottom: 15px;
+}
+
+.login-required p {
+    color: #999;
+    margin-bottom: 25px;
+}

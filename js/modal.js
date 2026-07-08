@@ -10,71 +10,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
 
-    // --- HESAP DROPDOWN ELEMANLARI ---
     const accountMenu = document.getElementById('account-menu');
     const logoutLink = document.getElementById('account-logout-link');
     const profileLink = document.getElementById('account-profile-link');
-    const favoritesLink = document.getElementById('account-favorites-link');
 
-    // --- 1. GÜVENLİ OTURUM KONTROLÜ (JWT TOKEN İLE) ---
     const checkSession = () => {
-    const token = localStorage.getItem('kavrulmus_token');
-    const user = JSON.parse(localStorage.getItem('kavrulmus_user'));
+        const token = localStorage.getItem('kavrulmus_token');
+        const user = JSON.parse(localStorage.getItem('kavrulmus_user'));
 
-    if (token && user && openAuthBtn) {
+        if (token && user && openAuthBtn) {
+            const gorunenAd = (user.name && user.name.trim())
+                ? user.name
+                : (user.email ? user.email.split('@')[0] : 'Kullanıcı');
 
-        // ad_soyad boşsa (eski kayıtlarda olabilir) e-postanın @ öncesini göster
-        const gorunenAd = (user.name && user.name.trim())
-            ? user.name
-            : (user.email ? user.email.split('@')[0] : 'Kullanıcı');
+            openAuthBtn.innerHTML = `👋 Hoş geldin, <strong>${gorunenAd}</strong> ▾`;
 
-        openAuthBtn.innerHTML = `
-    👋 Hoş geldin,
-    <strong>${gorunenAd}</strong> ▾
-`;
+            if (profileLink) {
+                profileLink.innerHTML = `👤 ${gorunenAd}`;
+            }
 
-        if (profileLink) {
-            profileLink.innerHTML = `👤 ${gorunenAd}`;
+            if (accountMenu) {
+                accountMenu.classList.add('logged-in');
+            }
+        } else {
+            if (openAuthBtn) {
+                openAuthBtn.innerHTML = `👤 Giriş Yap`;
+            }
+
+            if (accountMenu) {
+                accountMenu.classList.remove('logged-in');
+            }
         }
-
-        if (accountMenu) {
-            accountMenu.classList.add('logged-in');
-        }
-
-    } else {
-
-        if (openAuthBtn) {
-            openAuthBtn.innerHTML = `👤 Giriş Yap`;
-        }
-
-        if (accountMenu) {
-            accountMenu.classList.remove('logged-in');
-        }
-
-    }
-};
+    };
     checkSession(); 
 
-    // Butona tıklama: giriş yapılmamışsa modalı aç.
-    // Giriş yapılmışsa (masaüstünde dropdown zaten hover ile açılıyor) —
-    // dokunmatik ekranlar için tıklamada da aç/kapat yapalım.
     if (openAuthBtn) {
         openAuthBtn.addEventListener('click', () => {
             if (accountMenu && accountMenu.classList.contains('logged-in')) {
                 accountMenu.classList.toggle('menu-open');
-            } else {
+            } else if (authModal) {
                 authModal.classList.add('active');
             }
         });
     }
 
-    // Dropdown dışına tıklanınca kapansın (dokunmatik/mobil için)
     document.addEventListener('click', (e) => {
         if (accountMenu && !accountMenu.contains(e.target)) {
             accountMenu.classList.remove('menu-open');
         }
     });
-    // --- ÇIKIŞ YAP ---
+
     if (logoutLink) {
         logoutLink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -85,20 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- HESABIM / FAVORİLER (şimdilik yer tutucu) ---
-    if (profileLink) {
-        profileLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.showToast('👤 Hesabım sayfası yakında geliyor!');
-        });
-    }
-    if (favoritesLink) {
-        favoritesLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.showToast('♡ Favoriler sayfası yakında geliyor!');
-        });
-    }
-
     closeBtns.forEach(btn => btn.addEventListener('click', function() {
         this.closest('.modal-overlay').classList.remove('active');
     }));
@@ -106,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
     });
 
-    // --- 2. SEKMELER ARASI GEÇİŞ ---
     if (tabLogin && tabRegister) {
         tabLogin.addEventListener('click', (e) => {
             e.preventDefault();
@@ -127,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 3. GERÇEK GİRİŞ YAPMA İŞLEMİ (JWT ALIMI) ---
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -138,10 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-    email,
-    password
-})
+                    body: JSON.stringify({ email, password })
                 });
                 const data = await response.json();
 
@@ -149,42 +115,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.showToast(`✅ ${data.mesaj}`);
                     authModal.classList.remove('active');
                     loginForm.reset();
-                    
-                    // TOKEN VE EMAİL'İ GÜVENLİCE HAFIZAYA AL
                     localStorage.setItem('kavrulmus_token', data.token);
-localStorage.setItem('kavrulmus_user', JSON.stringify(data.user));
-                    checkSession(); 
+                    localStorage.setItem('kavrulmus_user', JSON.stringify(data.user));
+                    checkSession();
+                    if (window.location.pathname.includes('hesabim')) {
+                        window.location.reload();
+                    }
                 } else {
                     window.showToast(`❌ ${data.mesaj}`);
                 }
             } catch (error) {
-    console.error("HATA:", error);
-    alert(error.message);
-}
+                console.error("HATA:", error);
+                alert(error.message);
+            }
         });
     }
 
-    // --- 4. KAYIT OLMA İŞLEMİ ---
     if (registerForm) {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault(); 
             const inputs = registerForm.querySelectorAll('input');
-
-const adSoyad = inputs[0].value;
-const telefon = inputs[1].value;
-const email = inputs[2].value;
-const password = inputs[3].value;
+            const adSoyad = inputs[0].value;
+            const telefon = inputs[1].value;
+            const email = inputs[2].value;
+            const password = inputs[3].value;
 
             try {
                 const response = await fetch('/api/auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-    adSoyad,
-    telefon,
-    email,
-    password
-})
+                    body: JSON.stringify({ adSoyad, telefon, email, password })
                 });
                 const data = await response.json();
 
@@ -192,17 +152,19 @@ const password = inputs[3].value;
                     window.showToast(`✅ ${data.mesaj}`);
                     authModal.classList.remove('active'); 
                     registerForm.reset(); 
-                    
                     localStorage.setItem('kavrulmus_token', data.token);
-localStorage.setItem('kavrulmus_user', JSON.stringify(data.user));
+                    localStorage.setItem('kavrulmus_user', JSON.stringify(data.user));
                     checkSession();
+                    if (window.location.pathname.includes('hesabim')) {
+                        window.location.reload();
+                    }
                 } else {
                     window.showToast(`❌ ${data.mesaj}`);
                 }
             } catch (error) {
-    console.error("HATA:", error);
-    alert(error.message);
-}
+                console.error("HATA:", error);
+                alert(error.message);
+            }
         });
     }
 });

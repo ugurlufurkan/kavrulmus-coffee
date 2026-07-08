@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favorilerim | Kavrulmuş</title>
+    <title>Hesabım | Kavrulmuş</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/toast.css">
     <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/account.css">
     <link rel="stylesheet" href="css/footer.css">
     <style>
         .account-menu { position: relative; }
@@ -57,14 +57,55 @@
             <button class="btn-premium cart-btn" id="cart-icon">🛒 Sepet (<span id="cart-count">0</span>)</button>
         </div>
     </nav>
-    <section class="products-section" style="margin-top: 100px;">
-        <div class="section-header">
-            <h2>❤️ Favorilerim</h2>
-            <p>Beğendiğin kahveler burada.</p>
+
+    <main class="account-page">
+        <div id="login-required" class="login-required" style="display:none;">
+            <h2>🔒 Giriş Yapmanız Gerekiyor</h2>
+            <p>Hesap bilgilerinizi görmek için lütfen giriş yapın.</p>
+            <button id="open-auth-login" class="btn-premium primary">Giriş Yap</button>
         </div>
-        <div class="products-grid" id="favorites-grid"></div>
-    </section>
-    <div id="toast-container" class="toast-container"></div>
+        <div id="account-content" style="display:none;">
+            <div class="account-header">
+                <h1 id="account-welcome">Hesabım</h1>
+                <p>Profil bilgilerinizi yönetin, siparişlerinizi takip edin.</p>
+            </div>
+            <div class="account-tabs">
+                <button class="account-tab active" data-panel="panel-profile">👤 Profil</button>
+                <button class="account-tab" data-panel="panel-orders">📦 Siparişlerim</button>
+                <button class="account-tab" data-panel="panel-password">🔒 Şifre Değiştir</button>
+            </div>
+            <div id="panel-profile" class="account-panel active">
+                <div class="account-card">
+                    <h3>Profil Bilgileri</h3>
+                    <form id="profile-form" class="account-form">
+                        <label for="profile-name">Ad Soyad</label>
+                        <input type="text" id="profile-name" placeholder="Ad Soyad" required>
+                        <label for="profile-phone">Telefon</label>
+                        <input type="tel" id="profile-phone" placeholder="0555 123 45 67">
+                        <label for="profile-email">E-Posta</label>
+                        <input type="email" id="profile-email" placeholder="ornek@email.com" required>
+                        <button type="submit" class="btn-premium primary" style="margin-top:10px;">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+            <div id="panel-orders" class="account-panel"><div id="orders-list"></div></div>
+            <div id="panel-password" class="account-panel">
+                <div class="account-card">
+                    <h3>Şifre Değiştir</h3>
+                    <form id="password-form" class="account-form">
+                        <label for="current-password">Mevcut Şifre</label>
+                        <input type="password" id="current-password" placeholder="Mevcut şifreniz" required>
+                        <label for="new-password">Yeni Şifre</label>
+                        <input type="password" id="new-password" placeholder="En az 6 karakter" required minlength="6">
+                        <label for="new-password-confirm">Yeni Şifre (Tekrar)</label>
+                        <input type="password" id="new-password-confirm" placeholder="Yeni şifrenizi tekrar girin" required minlength="6">
+                        <button type="submit" class="btn-premium primary" style="margin-top:10px;">Şifreyi Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <div class="modal-overlay" id="auth-modal">
         <div class="modal-box">
             <span class="close-modal" id="close-auth">&times;</span>
@@ -86,9 +127,15 @@
             </form>
         </div>
     </div>
+    <div id="toast-container" class="toast-container"></div>
     <script src="js/toast.js"></script>
     <script src="js/modal.js"></script>
     <script src="js/favorites.js"></script>
-    <script src="js/favorites-page.js"></script>
+    <script src="js/account.js"></script>
+    <script>
+        document.getElementById('open-auth-login')?.addEventListener('click', () => {
+            document.getElementById('auth-modal').classList.add('active');
+        });
+    </script>
 </body>
 </html>

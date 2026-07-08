@@ -38,7 +38,6 @@ async function siparisMailleriGonder(siparis) {
         `<li>${u.quantity}x ${u.title} — ${u.price} TL</li>`
     ).join('');
 
-    // 1. Müşteriye onay maili (gerçek bir e-posta girildiyse)
     if (siparis.userEmail && siparis.userEmail !== 'Misafir') {
         try {
             await transporter.sendMail({
@@ -59,7 +58,6 @@ async function siparisMailleriGonder(siparis) {
         }
     }
 
-    // 2. Patrona (admin) bildirim maili
     try {
         await transporter.sendMail({
             from: `"Kavrulmuş Sipariş Sistemi" <${process.env.EMAIL_USER}>`,
@@ -114,9 +112,6 @@ const initDB = async () => {
             );
         `);
 
-        // MEVCUT users TABLOSU ESKİ ŞEMAYLA OLUŞTURULMUŞ OLABİLİR
-        // (CREATE TABLE IF NOT EXISTS, tablo zaten varsa sütun eklemez)
-        // Bu yüzden eksik sütunları burada garantiye alıyoruz:
         await pool.query(`
             ALTER TABLE users ADD COLUMN IF NOT EXISTS ad_soyad VARCHAR(255);
             ALTER TABLE users ADD COLUMN IF NOT EXISTS telefon VARCHAR(30);
@@ -128,6 +123,24 @@ const initDB = async () => {
     }
 };
 initDB();
+
+// --- MÜŞTERİ YETKİ KONTROLÜ (MIDDLEWARE) ---
+function verifyCustomer(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ mesaj: 'Oturum bulunamadı. Lütfen giriş yapın.' });
+    }
+
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err || decoded.role !== 'customer') {
+            return res.status(403).json({ mesaj: 'Bu işlem için giriş yapmanız gerekiyor.' });
+        }
+        req.user = decoded;
+        next();
+    });
+}
 
 // --- ADMIN YETKİ KONTROLÜ (MIDDLEWARE) ---
 function verifyAdmin(req, res, next) {
@@ -169,7 +182,7 @@ app.get('/api/urunler', async (req, res) => {
     }
 });
 
-// 1b. API: TEK BİR ÜRÜNÜ ID İLE ÇEK (ürün detay sayfası için)
+// 1b. API: TEK BİR ÜRÜNÜ ID İLE ÇEK
 app.get('/api/urunler/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -204,7 +217,6 @@ app.post('/api/urunler', verifyAdmin, async (req, res) => {
 
 // 3. API: YENİ ÜYE KAYDI
 app.post('/api/auth/register', async (req, res) => {
-
     console.log("BODY:", req.body);
 
     const { adSoyad, telefon, email, password } = req.body;
@@ -216,47 +228,38 @@ app.post('/api/auth/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const result = await pool.query(
-    `INSERT INTO users
-    (ad_soyad, telefon, email, password)
-    VALUES ($1, $2, $3, $4)
-    RETURNING id, ad_soyad, telefon, email`,
-    [
-        adSoyad,
-        telefon,
-        email,
-        hashedPassword
-    ]
-);
+            `INSERT INTO users (ad_soyad, telefon, email, password)
+             VALUES ($1, $2, $3, $4)
+             RETURNING id, ad_soyad, telefon, email`,
+            [adSoyad, telefon, email, hashedPassword]
+        );
 
-       const yeniKullanici = result.rows[0];
+        const yeniKullanici = result.rows[0];
 
-const token = jwt.sign(
-    {
-        id: yeniKullanici.id,
-        name: yeniKullanici.ad_soyad,
-        email: yeniKullanici.email,
-        role: 'customer'
-    },
-    JWT_SECRET,
-    { expiresIn: '2h' }
-);
+        const token = jwt.sign(
+            {
+                id: yeniKullanici.id,
+                name: yeniKullanici.ad_soyad,
+                email: yeniKullanici.email,
+                role: 'customer'
+            },
+            JWT_SECRET,
+            { expiresIn: '2h' }
+        );
 
-res.status(201).json({
-    mesaj: "Kayıt başarıyla tamamlandı!",
-    token,
-    user: {
-        name: yeniKullanici.ad_soyad,
-        phone: yeniKullanici.telefon,
-        email: yeniKullanici.email
+        res.status(201).json({
+            mesaj: "Kayıt başarıyla tamamlandı!",
+            token,
+            user: {
+                name: yeniKullanici.ad_soyad,
+                phone: yeniKullanici.telefon,
+                email: yeniKullanici.email
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ mesaj: "Kayıt başarısız" });
     }
-});
-
-} catch (err) {
-    console.error(err);
-    res.status(500).json({
-        mesaj: "Kayıt başarısız"
-    });
-}
 });
 
 // 4. API: GİRİŞ YAP
@@ -264,26 +267,17 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const result = await pool.query(
-            'SELECT * FROM users WHERE email = $1',
-            [email]
-        );
-
+        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
         const user = result.rows[0];
         console.log("USER:", user);
 
         if (!user) {
-            return res.status(401).json({
-                mesaj: "Hatalı e-posta veya şifre!"
-            });
+            return res.status(401).json({ mesaj: "Hatalı e-posta veya şifre!" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
-
         if (!isMatch) {
-            return res.status(401).json({
-                mesaj: "Hatalı e-posta veya şifre!"
-            });
+            return res.status(401).json({ mesaj: "Hatalı e-posta veya şifre!" });
         }
 
         const token = jwt.sign(
@@ -307,12 +301,136 @@ app.post('/api/auth/login', async (req, res) => {
                 email: user.email
             }
         });
-
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            mesaj: "Giriş yapılırken sunucu hatası"
+        res.status(500).json({ mesaj: "Giriş yapılırken sunucu hatası" });
+    }
+});
+
+// 4b. API: PROFİL BİLGİLERİNİ GETİR
+app.get('/api/auth/me', verifyCustomer, async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT id, ad_soyad, telefon, email, kayit_tarihi FROM users WHERE id = $1',
+            [req.user.id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ mesaj: 'Kullanıcı bulunamadı.' });
+        }
+
+        const user = result.rows[0];
+        res.json({
+            id: user.id,
+            name: user.ad_soyad,
+            phone: user.telefon,
+            email: user.email,
+            kayitTarihi: user.kayit_tarihi
         });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ mesaj: 'Profil bilgileri alınamadı.' });
+    }
+});
+
+// 4c. API: PROFİL GÜNCELLE
+app.put('/api/auth/profile', verifyCustomer, async (req, res) => {
+    const { adSoyad, telefon, email } = req.body;
+
+    if (!adSoyad || !email) {
+        return res.status(400).json({ mesaj: 'Ad soyad ve e-posta zorunludur.' });
+    }
+
+    try {
+        const emailCheck = await pool.query(
+            'SELECT id FROM users WHERE email = $1 AND id != $2',
+            [email, req.user.id]
+        );
+        if (emailCheck.rows.length > 0) {
+            return res.status(400).json({ mesaj: 'Bu e-posta başka bir hesapta kullanılıyor.' });
+        }
+
+        const result = await pool.query(
+            `UPDATE users SET ad_soyad = $1, telefon = $2, email = $3
+             WHERE id = $4
+             RETURNING id, ad_soyad, telefon, email`,
+            [adSoyad, telefon || null, email, req.user.id]
+        );
+
+        const user = result.rows[0];
+        res.json({
+            mesaj: 'Profil bilgileriniz güncellendi.',
+            user: {
+                name: user.ad_soyad,
+                phone: user.telefon,
+                email: user.email
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ mesaj: 'Profil güncellenemedi.' });
+    }
+});
+
+// 4d. API: ŞİFRE DEĞİŞTİR
+app.put('/api/auth/password', verifyCustomer, async (req, res) => {
+    const { mevcutSifre, yeniSifre } = req.body;
+
+    if (!mevcutSifre || !yeniSifre) {
+        return res.status(400).json({ mesaj: 'Mevcut ve yeni şifre zorunludur.' });
+    }
+    if (yeniSifre.length < 6) {
+        return res.status(400).json({ mesaj: 'Yeni şifre en az 6 karakter olmalıdır.' });
+    }
+
+    try {
+        const result = await pool.query('SELECT password FROM users WHERE id = $1', [req.user.id]);
+        const user = result.rows[0];
+
+        if (!user) {
+            return res.status(404).json({ mesaj: 'Kullanıcı bulunamadı.' });
+        }
+
+        const isMatch = await bcrypt.compare(mevcutSifre, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ mesaj: 'Mevcut şifre hatalı.' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(yeniSifre, salt);
+
+        await pool.query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, req.user.id]);
+        res.json({ mesaj: 'Şifreniz başarıyla güncellendi.' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ mesaj: 'Şifre güncellenemedi.' });
+    }
+});
+
+// 4e. API: KULLANICININ SİPARİŞLERİ
+app.get('/api/siparislerim', verifyCustomer, async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT * FROM orders WHERE user_email = $1 ORDER BY tarih DESC',
+            [req.user.email]
+        );
+
+        const siparisler = result.rows.map(row => ({
+            id: row.id,
+            tarih: row.tarih,
+            musteriAd: row.musteri_ad,
+            telefon: row.telefon,
+            adres: row.adres,
+            odemeYontemi: row.odeme_yontemi,
+            urunler: row.urunler,
+            toplamTutar: row.toplam_tutar,
+            durum: row.durum
+        }));
+
+        res.json(siparisler);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ mesaj: 'Siparişler okunamadı.' });
     }
 });
 
@@ -342,8 +460,6 @@ app.post('/api/siparis', async (req, res) => {
 
         await client.query('COMMIT');
 
-        // Mailleri arka planda gönder — sipariş cevabını bekletmesin,
-        // mail gönderimi başarısız olsa bile sipariş zaten kaydedildi.
         siparisMailleriGonder({
             musteriAd, telefon, adres, odemeYontemi, sepet, toplamTutar, userEmail, takipNo
         }).catch(err => console.error("❌ Mail gönderim hatası:", err.message));
