@@ -1,69 +1,68 @@
 // js/api.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Sitedeki ürünlerin listeleneceği alanı bul (Anasayfa veya Ürünler sayfası)
+    const productsGrids = document.querySelectorAll('.products-grid');
     
-    // Ürünlerin basılacağı kapsayıcı (container)
-    const productsGrid = document.getElementById('dynamic-products-grid');
+    // Eğer bulunduğumuz sayfada ürün sergileme alanı yoksa çalışmayı durdur
+    if (productsGrids.length === 0) return;
 
-    // Eğer sayfa ürünler sayfası değilse çalışmayı durdur
-    if (!productsGrid) return;
-
-    // Backend API'den verileri çeken fonksiyon
-    async function fetchProducts() {
+    // Ürünleri Backend'den Çekip Ekrana Basan Motor
+    const fetchAndRenderProducts = async () => {
         try {
-            // Sunucumuzdaki /api/urunler adresine istek atıyoruz
+            // Sunucumuzdaki (Backend) ürünler API'sine gidiyoruz
             const response = await fetch('/api/urunler');
-            const urunler = await response.json();
+            const products = await response.json();
 
-            // Gelen verilerle HTML kartlarını oluştur
-            renderProducts(urunler);
+            // Tüm ızgaraları (grid) dön (Hem anasayfa hem ürünler sayfasında çalışması için)
+            productsGrids.forEach(grid => {
+                // 1. Önce HTML içine elle yazılmış o eski sahte ürünleri temizle
+                grid.innerHTML = '';
+
+                // 2. Eğer veritabanı tamamen boşsa uyarı göster
+                if (products.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; width: 100%; color: var(--gold-accent); margin-top: 20px;">Henüz vitrine kahve eklenmedi. Admin panelinden hemen yeni ürün ekleyebilirsiniz!</p>';
+                    return;
+                }
+
+                // 3. Veritabanından gelen her bir ürün için HTML kartı üret
+                products.forEach((urun, index) => {
+                    const card = document.createElement('div');
+                    
+                    // Kartlara havalı animasyon sınıflarını (show ve delay) ekliyoruz
+                    card.className = `product-card animate fade-up delay-${(index % 4) + 1} show`; 
+
+                    card.innerHTML = `
+                        <div class="card-image-wrapper">
+                            <img src="${urun.resim}" alt="${urun.baslik}" class="product-img loaded">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="product-title">${urun.baslik}</h3>
+                            <p class="product-type" style="font-size: 0.85rem; color: #999; margin-bottom: 10px;">${urun.tur}</p>
+                            <div class="card-footer">
+                                <span class="price">${urun.fiyat} TL</span>
+                                <button class="btn-premium primary add-to-cart" 
+                                    data-id="${urun.id}" 
+                                    data-title="${urun.baslik}" 
+                                    data-price="${urun.fiyat}" 
+                                    data-image="${urun.resim}">🛒 Ekle</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Oluşturulan kartı ızgaranın içine yerleştir
+                    grid.appendChild(card);
+                });
+            });
+
         } catch (error) {
-            console.error("Ürünler çekilirken hata oluştu:", error);
-            productsGrid.innerHTML = `<p style="color: red; text-align: center; width: 100%;">Ürünler yüklenemedi. Lütfen daha sonra tekrar deneyin.</p>`;
+            console.error("Ürünler yüklenirken hata oluştu:", error);
+            productsGrids.forEach(grid => {
+                grid.innerHTML = '<p style="text-align: center; width: 100%; color: red; margin-top: 20px;">Sunucuya bağlanılamadı. Node.js (server.js) açık mı?</p>';
+            });
         }
-    }
+    };
 
-    // JSON verisini HTML'e çeviren fonksiyon
-    function renderProducts(urunler) {
-        // Önce içeriği temizle (Yükleniyor yazısını sil)
-        productsGrid.innerHTML = '';
-
-        urunler.forEach(urun => {
-            const cardHTML = `
-                <div class="product-card">
-                    <div class="card-image-wrapper">
-                        <div class="card-badges">
-                            ${urun.etiket ? `<span class="badge bestseller">${urun.etiket}</span>` : ''}
-                            <span class="badge weight">${urun.gramaj}</span>
-                        </div>
-                        <button class="wishlist-btn">♡</button>
-                        <img src="${urun.resim}" alt="${urun.isim}" class="product-img">
-                        <div class="quick-view-overlay">
-                            <button class="btn-premium secondary">👁️ Quick View</button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div class="stars">${urun.yildiz} <span style="color:#666; font-size:0.8rem;">(${urun.degerlendirme})</span></div>
-                        <h3 class="product-title">${urun.isim}</h3>
-                        <p class="product-type">${urun.tur}</p>
-                        <div class="card-footer">
-                            <span class="price">${urun.fiyat} TL</span>
-                            <button class="btn-premium primary add-to-cart">🛒 Ekle</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            // Oluşturulan kartı ızgaraya ekle
-            productsGrid.insertAdjacentHTML('beforeend', cardHTML);
-        });
-
-        // Yeni eklenen "🛒 Ekle" butonlarına Toast ve Sepet olaylarını bağlamamız lazım
-        // Bu tetiklemeyi manuel yapıyoruz çünkü HTML sonradan oluştu.
-        if (typeof attachCartEvents === 'function') {
-            attachCartEvents();
-        }
-    }
-
-    // Fetch işlemini başlat
-    fetchProducts();
+    // Sistemi çalıştır
+    fetchAndRenderProducts();
 });
