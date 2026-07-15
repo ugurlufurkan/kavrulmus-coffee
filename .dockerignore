@@ -1,26 +1,16 @@
-# Git ve Docker yapılandırmaları
-.git
-.git/
-.gitignore
-.dockerignore
+node_modules
+npm-debug.log
 
-# Çevre Değişkenleri ve Gizli Dosyalar
+.git
+.gitignore
+.gitinore
+
 .env
 .env.local
 .env.*.local
 
-# Bağımlılıklar ve Loglar
-node_modules
-npm-debug.log
-
-# Geliştirici ve Editör Dosyaları
-.cursor/
-.vscode/
-.idea/
-*.swp
-
-# İşletim Sistemi Kalıntıları ve Diğer
+*.zip
 .DS_Store
 Thumbs.db
-*.zip
+
 README.md

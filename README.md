@@ -1,178 +1,207 @@
-# Kavrulmuş — Premium Kahve E-Ticaret Sitesi
+<div align="center">
 
-Aksaray merkezli kahve markası için full-stack demo e-ticaret projesi. Express + PostgreSQL backend, vanilla HTML/CSS/JS frontend.
+<img src="./favicon.svg" width="120" alt="Kavrulmuş Coffee Logo">
 
-**Repo:** [github.com/ugurlufurkan/ornek-site](https://github.com/ugurlufurkan/ornek-site)
+# ☕ Kavrulmuş Coffee
 
-## Özellikler
+### Modern Full-Stack Coffee E-Commerce Website
 
-- Ürün listesi, arama, filtre, sıralama
-- Sepet, checkout, sipariş takibi (`KVR-XXXX`)
-- Kullanıcı kayıt/giriş, hesabım, favoriler, şifre sıfırlama (e-posta ile)
-- Ürün yorumları, admin paneli (ürün CRUD, sipariş durumu, iletişim mesajları)
-- Blog, iletişim formu, KVKK / yasal sayfalar
-- Dark/light tema, rate limit, güvenlik başlıkları
-- Anasayfa chatbot (SSS / basit yönlendirme)
+A modern full-stack coffee shop web application developed as a **personal portfolio project**.
 
-## Demo sınırlamaları
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle%20ORM-C5F74F?style=for-the-badge)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-- **Ödeme:** Kart formu arayüzdür; gerçek ödeme altyapısı (iyzico, Stripe vb.) bağlı değildir. Siparişler demo olarak kaydedilir.
-- **E-posta:** Gmail SMTP + [uygulama şifresi](https://myaccount.google.com/apppasswords) olmadan sipariş / şifre sıfırlama mailleri gitmez (site yine çalışır).
-- **Admin:** Oturum `sessionStorage` ile tutulur — sekmeyi kapatınca tekrar giriş gerekir (JWT süresi 1 saat).
+🚀 **Full Stack** • ☕ **Coffee Shop** • 💻 **Portfolio Project**
 
-## Gereksinimler
+</div>
 
-- Node.js 18+
-- Docker Desktop (PostgreSQL için) veya harici Postgres
+---
 
-## Hızlı Başlangıç (Local)
+# 📖 About
 
-```powershell
-# 1. Bağımlılıklar
+**Kavrulmuş Coffee** is a modern full-stack coffee shop web application developed to demonstrate backend, frontend and database development skills.
+
+The project includes a complete e-commerce workflow including user authentication, shopping cart, product management, order tracking and an admin dashboard.
+
+> **Disclaimer**
+>
+> This project was created **for educational and portfolio purposes only**. It is not affiliated with any real company and does not process real payments.
+
+---
+
+# ✨ Features
+
+### 👤 User
+
+- User Authentication (JWT)
+- Password Reset via Email
+- User Profile
+- Shopping Cart
+- Favorites
+- Checkout
+- Order Tracking
+- Product Reviews
+
+### ☕ Store
+
+- Product Listing
+- Product Details
+- Search
+- Filtering
+- Sorting
+- Blog
+- Contact Form
+
+### 👨‍💼 Admin
+
+- Secure Admin Login
+- Product Management (CRUD)
+- Order Management
+- Contact Messages
+- Dashboard
+
+### 🎨 UI
+
+- Responsive Design
+- Dark / Light Theme
+- Toast Notifications
+- Skeleton Loading
+- Cookie Management
+- Chatbot Assistant
+
+---
+
+# 🛠 Tech Stack
+
+### Frontend
+
+- HTML5
+- CSS3
+- JavaScript
+
+### Backend
+
+- Node.js
+- Express.js
+
+### Database
+
+- PostgreSQL
+- Drizzle ORM
+
+### DevOps
+
+- Docker
+- Render
+- Git
+- GitHub
+
+### Security
+
+- JWT Authentication
+- Password Hashing
+- Rate Limiting
+- Helmet
+- Environment Variables
+
+---
+
+# 🚀 Getting Started
+
+```bash
+git clone https://github.com/ugurlufurkan/kavrulmus-coffee.git
+
+cd kavrulmus-coffee
+
 npm install
 
-# 2. Ortam değişkenleri — DİKKAT: mevcut .env varsa ÜZERİNE YAZMAYIN
-#    Sadece ilk kurulumda: copy .env.example .env
-#    DB_PASSWORD docker volume ile aynı kalmalı (değiştirmek için: npm run dev:down -v)
-
-# 3. Veritabanı + sunucu — tek komut
 npm run dev
 ```
 
-Bu komut `docker-compose.dev.yml` ile PostgreSQL'i (host'a **5432 portu açık** şekilde) başlatır ve ardından `node server.js`'i çalıştırır. Tablolar Drizzle migration'ları ile otomatik oluşur.
+Seed sample data
 
-> ⚠️ Sakın `docker compose up -d veritabani` (dosya belirtmeden, varsayılan `docker-compose.yml` ile) çalıştırmayın — o dosyada Postgres portu host'a açılmaz, sadece Docker içinden erişilebilir. Host'ta çalışan `npm start`/`node server.js` o zaman veritabanına hiç bağlanamaz.
-
-```powershell
-# 4. Örnek ürünler (ilk kurulumda, ayrı bir terminalde)
+```bash
 npm run seed
 ```
 
-Tarayıcı: **http://localhost:3000** (HTML dosyasına çift tıklamayın)
+Open your browser:
 
-### Ürünler görünmüyorsa
-
-1. Docker açık mı? `npm run dev` çalıştırdınız mı (`docker compose up -d veritabani` **değil** — port açmaz)?
-2. `.env` içindeki `DB_PASSWORD`, Postgres volume ile uyumlu mu?
-3. Eski node süreci kalmış olabilir — terminalde `Ctrl+C`, gerekirse Görev Yöneticisi'nden `node.exe` kapatın
-4. `npm run seed` ile ürünleri yükleyin
-5. **http://localhost:3000/urunler.html** adresinden açın
-6. Tarayıcıda F12 → Network sekmesinden `/api/urunler` isteğinin durum kodunu ve dönen veriyi kontrol edin
-
-## Docker ile Tam Stack
-
-```powershell
-# İlk kurulumda: copy .env.example .env  (mevcut .env varsa ÜZERİNE YAZMAYIN)
-docker compose up -d --build
-npm run seed
+```text
+http://localhost:3000
 ```
 
-## Ortam Değişkenleri
+---
 
-| Değişken | Açıklama |
-|----------|----------|
-| `PORT` | Sunucu portu (varsayılan 3000) |
-| `APP_URL` | Canlı site URL'i (e-posta linkleri için) |
-| `JWT_SECRET` | Müşteri/admin token imzalama |
-| `ADMIN_PASSWORD` | Admin panel giriş şifresi |
-| `DB_*` | PostgreSQL bağlantı bilgileri |
-| `EMAIL_USER` / `EMAIL_PASS` | Gmail + [uygulama şifresi](https://myaccount.google.com/apppasswords) |
-| `ADMIN_EMAIL` | Sipariş/iletişim bildirimleri |
+# 🐳 Docker
 
-Sunucu başlarken terminalde `📧 Gmail SMTP bağlantısı hazır.` görürseniz mail çalışıyordur.
-
-## Veritabanı
-
-Tablolar sunucu başlarken **Drizzle migration'ları** ile otomatik oluşur (`db/migrate.js` → `drizzle/` klasöründeki SQL dosyaları). `schema.sql` referans/yedek amaçlıdır, sunucu onu doğrudan çalıştırmaz. Şema tanımı: `db/schema.js`.
-
-```powershell
-npm run db:migrate     # Migration'ları manuel çalıştır (server.js zaten başlarken çalıştırıyor)
-npm run seed            # Örnek ürünler
-node server.js          # API + statik site
+```bash
+docker compose up --build
 ```
 
-## Admin Paneli
+---
 
-- URL: `/admin.html`
-- Şifre: `.env` içindeki `ADMIN_PASSWORD`
-- Oturum sekme bazlıdır (`sessionStorage`); sekme kapanınca veya **Çıkış Yap** ile oturum sona erer
-- Token sunucuda `/api/admin/verify` ile doğrulanır
+# 📂 Project Structure
 
-## Yayınlama (Render)
-
-1. GitHub repo'yu Render'a bağlayın
-2. `render.yaml` blueprint kullanın veya:
-   - **Build:** `npm install`
-   - **Start:** `node server.js`
-   - Postgres eklentisi bağlayın
-3. Environment variables panelinden `APP_URL`, mail ayarlarını girin
-4. Deploy sonrası: `npm run seed` (Render shell) veya seed script'i bir kez çalıştırın
-
-## Proje Yapısı
-
-```
-ornek-site/
-├── server.js                  # Express API + statik sunucu
-├── seed.js                    # Örnek ürün verisi
-├── schema.sql                 # PostgreSQL şeması (referans/yedek)
+```text
+kavrulmus-coffee
+│
+├── assets/
+├── css/
+├── data/
 ├── db/
-│   ├── index.js                # Drizzle + pg connection pool
-│   ├── schema.js                # Drizzle tablo tanımları
-│   └── migrate.js               # Migration çalıştırıcı (server.js başlarken çağırır)
-├── drizzle/                    # drizzle-kit tarafından üretilen migration SQL'leri
-├── docker-compose.yml          # Tam stack (Postgres + uygulama), Docker deploy için
-├── docker-compose.dev.yml      # Sadece Postgres, port host'a açık — `npm run dev` bunu kullanır
-├── docker-compose.prod.yml     # Production Docker stack
+├── drizzle/
+├── js/
+├── partials/
+├── server.js
+├── seed.js
 ├── Dockerfile
-├── .dockerignore               # Docker build'ine .env/.git/node_modules dahil edilmesin diye
-├── render.yaml                 # Render deploy blueprint
-├── index.html                  # Anasayfa
-├── admin.html                  # Patron paneli
-├── siparis-takip.html          # Sipariş sorgulama
-├── 404.html                    # Özel hata sayfası
-├── js/                          # Frontend scriptleri
-├── css/                         # Stiller
-└── partials/                    # Paylaşılan UI parçaları
+├── docker-compose.yml
+├── render.yaml
+└── README.md
 ```
 
-## Sayfalar
+---
 
-| Sayfa | Açıklama |
-|-------|----------|
-| `index.html` | Anasayfa, öne çıkan ürünler |
-| `urunler.html` | Ürün listesi, arama/filtre |
-| `urun-detay.html` | Ürün detayı, yorumlar |
-| `hesabim.html` | Profil, siparişler, şifre |
-| `favoriler.html` | Favori ürünler |
-| `siparis-takip.html` | `KVR-XXXX` ile takip |
-| `blog.html` / `blog-yazi.html` | Blog |
-| `iletisim.html` | İletişim formu |
-| `admin.html` | Yönetim paneli |
+# 📸 Screenshots
 
-## API Özet
+> Screenshots will be added soon.
 
-| Endpoint | Açıklama |
-|----------|----------|
-| `GET /api/health` | Sağlık kontrolü (DB dahil) |
-| `GET /api/urunler` | Ürün listesi |
-| `GET /api/urunler/:id` | Tek ürün |
-| `GET/POST /api/urunler/:id/yorumlar` | Yorumlar (POST: giriş gerekli) |
-| `POST /api/siparis` | Sipariş oluştur |
-| `GET /api/siparisler/takip/:id` | Sipariş takip (KVR-1234) |
-| `POST /api/iletisim` | İletişim formu |
-| `POST /api/auth/register` | Kayıt |
-| `POST /api/auth/login` | Giriş |
-| `POST /api/auth/forgot-password` | Şifre sıfırlama maili |
-| `POST /api/auth/reset-password` | Yeni şifre belirle |
-| `GET /api/auth/me` | Oturum bilgisi |
-| `GET/POST /api/favoriler` | Favoriler |
-| `POST /api/admin/login` | Admin giriş |
-| `GET /api/admin/verify` | Admin oturum doğrulama |
-| `GET/PUT/DELETE /api/urunler/:id` | Admin ürün yönetimi |
-| `GET /api/siparisler` | Admin sipariş listesi |
-| `PUT /api/siparisler/:id/durum` | Sipariş durumu güncelle |
-| `GET /api/iletisim` | Admin iletişim mesajları |
+---
 
-## Lisans
+# 🛣 Roadmap
 
-Eğitim / portfolyo amaçlı demo proje.
+- ✅ Authentication
+- ✅ Admin Panel
+- ✅ Product Management
+- ✅ Shopping Cart
+- ✅ Favorites
+- ✅ Blog
+- ✅ Responsive Design
+- ✅ Docker Support
+- ⏳ Live Demo
+- ⏳ Performance Improvements
+
+---
+
+# 🤝 Acknowledgements
+
+This project was developed independently as a personal portfolio project during my software development internship experience.
+
+---
+
+# 📄 License
+
+Licensed under the **MIT License**.
+
+---
+
+<div align="center">
+
+⭐ If you like this project, consider giving it a star.
+
+Made with ❤️ by **Furkan Uğurlu**
+
+</div>
