@@ -4,9 +4,11 @@
 
 # ☕ Kavrulmuş Coffee
 
-### Modern Full-Stack Coffee E-Commerce Website
+### Modern Full-Stack Kahve E-Ticaret Uygulaması
 
-A modern full-stack coffee shop web application developed as a **personal portfolio project**.
+Node.js, Express.js, PostgreSQL, Drizzle ORM ve Docker kullanılarak geliştirilmiş modern full-stack kahve e-ticaret uygulaması.
+
+Kişisel portfolyo projesi olarak geliştirilmiştir.
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
@@ -14,120 +16,140 @@ A modern full-stack coffee shop web application developed as a **personal portfo
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle%20ORM-C5F74F?style=for-the-badge)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-🚀 **Full Stack** • ☕ **Coffee Shop** • 💻 **Portfolio Project**
+🚀 **Full Stack** • ☕ **E-Ticaret** • 💻 **Portfolyo Projesi**
+
+🌐 **Canlı Demo:**  
+https://kavrulmus-coffee.onrender.com
 
 </div>
 
 ---
 
-# 📖 About
+# 📖 Proje Hakkında
 
-**Kavrulmuş Coffee** is a modern full-stack coffee shop web application developed to demonstrate backend, frontend and database development skills.
+**Kavrulmuş Coffee**, modern web geliştirme teknolojilerini kullanarak hazırlanmış full-stack bir kahve e-ticaret uygulamasıdır.
 
-The project includes a complete e-commerce workflow including user authentication, shopping cart, product management, order tracking and an admin dashboard.
+Projenin amacı; frontend, backend, veritabanı yönetimi, güvenlik ve deployment süreçlerindeki yazılım geliştirme yeteneklerini göstermektir.
 
-> **Disclaimer**
+Uygulama içerisinde kullanıcı yönetimi, ürün sistemi, sepet işlemleri, sipariş takibi, yorum sistemi ve yönetici paneli gibi temel e-ticaret özellikleri bulunmaktadır.
+
+> ⚠️ **Bilgilendirme**
 >
-> This project was created **for educational and portfolio purposes only**. It is not affiliated with any real company and does not process real payments.
+> Bu proje yalnızca eğitim ve portfolyo amacıyla geliştirilmiştir.
+> Gerçek bir marka ile bağlantısı bulunmamaktadır ve gerçek ödeme işlemleri gerçekleştirmez.
 
 ---
 
-# ✨ Features
+# ✨ Özellikler
 
-### 👤 User
+## 👤 Kullanıcı
 
-- User Authentication (JWT)
-- Password Reset via Email
-- User Profile
-- Shopping Cart
-- Favorites
-- Checkout
-- Order Tracking
-- Product Reviews
+- JWT tabanlı kullanıcı giriş sistemi
+- E-posta ile şifre sıfırlama
+- Kullanıcı profil yönetimi
+- Sepet sistemi
+- Favoriler
+- Sipariş oluşturma
+- Sipariş takip sistemi
+- Ürün yorumları
 
-### ☕ Store
+---
 
-- Product Listing
-- Product Details
-- Search
-- Filtering
-- Sorting
-- Blog
-- Contact Form
+## ☕ Mağaza
 
-### 👨‍💼 Admin
+- Ürün listeleme
+- Ürün detay sayfaları
+- Ürün arama
+- Filtreleme
+- Sıralama
+- Blog sistemi
+- İletişim formu
 
-- Secure Admin Login
-- Product Management (CRUD)
-- Order Management
-- Contact Messages
+---
+
+## 👨‍💼 Yönetici Paneli
+
+- Güvenli admin girişi
+- Ürün CRUD işlemleri
+- Sipariş yönetimi
+- İletişim mesajları yönetimi
 - Dashboard
 
-### 🎨 UI
+---
 
-- Responsive Design
-- Dark / Light Theme
-- Toast Notifications
-- Skeleton Loading
-- Cookie Management
-- Chatbot Assistant
+## 🎨 Arayüz
+
+- Responsive tasarım
+- Karanlık / Açık tema
+- Toast bildirimleri
+- Skeleton loading
+- Cookie yönetimi
+- Chatbot asistanı
 
 ---
 
-# 🛠 Tech Stack
+# 🛠 Kullanılan Teknolojiler
 
-### Frontend
+## Frontend
 
 - HTML5
 - CSS3
 - JavaScript
 
-### Backend
+## Backend
 
 - Node.js
 - Express.js
 
-### Database
+## Veritabanı
 
 - PostgreSQL
 - Drizzle ORM
 
-### DevOps
+## DevOps & Deployment
 
 - Docker
 - Render
 - Git
 - GitHub
 
-### Security
+## Güvenlik
 
 - JWT Authentication
-- Password Hashing
+- Şifre hashleme
 - Rate Limiting
-- Helmet
+- Helmet Security Headers
 - Environment Variables
 
 ---
 
-# 🚀 Getting Started
+# 🚀 Kurulum
+
+Projeyi bilgisayarınıza indirin:
 
 ```bash
 git clone https://github.com/ugurlufurkan/kavrulmus-coffee.git
-
-cd kavrulmus-coffee
-
-npm install
-
-npm run dev
 ```
 
-Seed sample data
+Proje klasörüne girin:
 
 ```bash
-npm run seed
+cd kavrulmus-coffee
 ```
 
-Open your browser:
+Bağımlılıkları yükleyin:
+
+```bash
+npm install
+```
+
+Uygulamayı çalıştırın:
+
+```bash
+npm start
+```
+
+Tarayıcıdan açın:
 
 ```text
 http://localhost:3000
@@ -135,7 +157,19 @@ http://localhost:3000
 
 ---
 
-# 🐳 Docker
+# 🌱 Örnek Verileri Yükleme
+
+Test ürünlerini eklemek için:
+
+```bash
+npm run seed
+```
+
+---
+
+# 🐳 Docker Kullanımı
+
+Docker ile çalıştırmak için:
 
 ```bash
 docker compose up --build
@@ -143,65 +177,67 @@ docker compose up --build
 
 ---
 
-# 📂 Project Structure
+# 📂 Proje Yapısı
 
 ```text
 kavrulmus-coffee
 │
-├── assets/
-├── css/
-├── data/
-├── db/
-├── drizzle/
-├── js/
-├── partials/
-├── server.js
-├── seed.js
-├── Dockerfile
-├── docker-compose.yml
-├── render.yaml
+├── assets/              # Görseller ve medya dosyaları
+├── css/                 # Stil dosyaları
+├── data/                # Statik veriler
+├── db/                  # Veritabanı işlemleri
+├── drizzle/             # ORM migration dosyaları
+├── js/                  # Frontend JavaScript dosyaları
+├── partials/            # Ortak HTML parçaları
+├── server.js            # Express sunucu
+├── seed.js              # Örnek veri oluşturma
+├── Dockerfile           # Docker yapılandırması
+├── docker-compose.yml   # Container ayarları
+├── render.yaml          # Render deployment ayarları
 └── README.md
 ```
 
 ---
 
-# 📸 Screenshots
+# 📸 Ekran Görüntüleri
 
-> Screenshots will be added soon.
-
----
-
-# 🛣 Roadmap
-
-- ✅ Authentication
-- ✅ Admin Panel
-- ✅ Product Management
-- ✅ Shopping Cart
-- ✅ Favorites
-- ✅ Blog
-- ✅ Responsive Design
-- ✅ Docker Support
-- ⏳ Live Demo
-- ⏳ Performance Improvements
+Yakında eklenecek.
 
 ---
 
-# 🤝 Acknowledgements
+# 🛣 Geliştirme Durumu
 
-This project was developed independently as a personal portfolio project during my software development internship experience.
+- ✅ Kullanıcı Authentication
+- ✅ Admin Paneli
+- ✅ Ürün Yönetimi
+- ✅ Sepet Sistemi
+- ✅ Favoriler
+- ✅ Blog Sistemi
+- ✅ Responsive Tasarım
+- ✅ Docker Desteği
+- ✅ Production Deployment
+- ⏳ Performans geliştirmeleri
 
 ---
 
-# 📄 License
+# 🤝 Geliştirme Süreci
 
-Licensed under the **MIT License**.
+Bu proje bağımsız olarak geliştirilmiş kişisel bir portfolyo çalışmasıdır.
+
+Frontend, backend, veritabanı yönetimi ve deployment süreçleri tamamen geliştirme sürecinin bir parçası olarak uygulanmıştır.
+
+---
+
+# 📄 Lisans
+
+Bu proje **MIT License** ile lisanslanmıştır.
 
 ---
 
 <div align="center">
 
-⭐ If you like this project, consider giving it a star.
+⭐ Projeyi beğendiyseniz yıldız vermeyi unutmayın.
 
-Made with ❤️ by **Furkan Uğurlu**
+❤️ Made with by **Furkan Uğurlu**
 
 </div>
